@@ -1,0 +1,86 @@
+{
+  "psi_top_features": [
+    {
+      "feature": "pending\nratio",
+      "psi": 12.4142
+    },
+    {
+      "feature": "total\npending_x",
+      "psi": 12.4109
+    },
+    {
+      "feature": "pending\ngpus_x",
+      "psi": 12.4109
+    },
+    {
+      "feature": "queue\ndepth_norm",
+      "psi": 12.4109
+    },
+    {
+      "feature": "congestion\nscore",
+      "psi": 6.624
+    },
+    {
+      "feature": "temp_c_max",
+      "psi": 5.1289
+    },
+    {
+      "feature": "temp_c_mean",
+      "psi": 4.9352
+    },
+    {
+      "feature": "fragmentation\nscore",
+      "psi": 1.3895
+    },
+    {
+      "feature": "total\nrunning",
+      "psi": 0.5071
+    },
+    {
+      "feature": "running\ngpus_x",
+      "psi": 0.5071
+    }
+  ],
+  "temporal_ece": [
+    {
+      "window": 1,
+      "ece": 0.0,
+      "auroc": 1.0
+    },
+    {
+      "window": 2,
+      "ece": 0.0,
+      "auroc": 1.0
+    },
+    {
+      "window": 3,
+      "ece": 0.0,
+      "auroc": 1.0
+    },
+    {
+      "window": 4,
+      "ece": 0.0,
+      "auroc": 1.0
+    },
+    {
+      "window": 5,
+      "ece": 0.0,
+      "auroc": 1.0
+    },
+    {
+      "window": 6,
+      "ece": 0.0,
+      "auroc": 1.0
+    },
+    {
+      "window": 7,
+      "ece": 0.0145,
+      "auroc": 1.0
+    },
+    {
+      "window": 8,
+      "ece": 0.0,
+      "auroc": 1.0
+    }
+  ]
+}

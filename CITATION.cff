@@ -1,0 +1,110 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software or its accompanying paper, please cite both the
+  ACM conference paper (preferred-citation block, below) and this software
+  artifact.
+type: software
+title: >-
+  VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated
+  Predictive Intelligence
+abstract: >-
+  Reproducible scientific-software artifact accompanying the PEARC '26 paper
+  "VGAC". Includes the calibration-gated prediction pipeline (universal
+  feature schema, isotonic post-hoc calibration, four-tier qualification, PSI
+  and temporal-ECE drift detection, sliding-window recalibration), policy
+  translation layer (gpu_ext bridge, generator, inference router), routing
+  simulation harness, sample data for four cluster environments
+  (EKS-Dec, Slurm with DCGM, Alibaba GPU trace 2020/2023, Google Borg 2019),
+  benchmark artifacts, architecture/methodology documentation, and a single
+  Jupyter notebook that regenerates every figure in the paper.
+version: 1.0.0
+date-released: "2026-07-01"
+license: MIT
+repository-code: "https://github.com/espirado/VGAC"
+url: "https://github.com/espirado/VGAC"
+authors:
+  - family-names: Espira
+    given-names: Andrew
+    orcid: "https://orcid.org/0009-0002-9196-8094"
+    affiliation: Saint Peter's University
+    email: aespira@saintpeters.edu
+keywords:
+  - GPU clusters
+  - Kubernetes
+  - Slurm
+  - DCGM telemetry
+  - cluster observability
+  - probability calibration
+  - Expected Calibration Error
+  - isotonic regression
+  - Population Stability Index
+  - drift detection
+  - admission control
+  - scheduling policy
+  - eBPF
+  - reproducibility
+  - scientific software
+  - PEARC26
+identifiers:
+  - type: doi
+    value: "10.1145/3785462.3815816"
+    description: "ACM DOI for the PEARC '26 conference paper"
+  - type: doi
+    value: "10.5281/zenodo.PENDING"
+    description: "Zenodo archive of v1.0.0 (auto-deposited from GitHub release)"
+  - type: url
+    value: "https://github.com/espirado/VGAC/releases/tag/v1.0.0"
+    description: "GitHub release v1.0.0 (camera-ready PEARC '26 artifact)"
+references:
+  - type: software
+    title: "scikit-learn"
+    authors:
+      - name: "scikit-learn developers"
+    url: "https://scikit-learn.org"
+  - type: software
+    title: "NVIDIA Data Center GPU Manager (DCGM)"
+    authors:
+      - name: "NVIDIA Corporation"
+    url: "https://developer.nvidia.com/dcgm"
+  - type: software
+    title: "XGBoost"
+    authors:
+      - name: "XGBoost developers"
+    url: "https://xgboost.ai"
+  - type: software
+    title: "LightGBM"
+    authors:
+      - name: "Microsoft Research"
+    url: "https://lightgbm.readthedocs.io"
+preferred-citation:
+  type: conference-paper
+  title: >-
+    VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated
+    Predictive Intelligence
+  authors:
+    - family-names: Espira
+      given-names: Andrew
+      orcid: "https://orcid.org/0009-0002-9196-8094"
+      affiliation: Saint Peter's University
+  year: 2026
+  month: 7
+  collection-title: >-
+    Practice and Experience in Advanced Research Computing 2026 (PEARC '26)
+  conference:
+    name: "Practice and Experience in Advanced Research Computing 2026 (PEARC '26)"
+    city: Minneapolis
+    region: MN
+    country: US
+    date-start: "2026-07-26"
+    date-end: "2026-07-30"
+  publisher:
+    name: "Association for Computing Machinery"
+  doi: "10.1145/3785462.3815816"
+  isbn: "979-8-4007-2377-3"
+  url: "https://doi.org/10.1145/3785462.3815816"
+  keywords:
+    - GPU clusters
+    - calibration
+    - admission control
+    - cluster observability
+    - reproducibility
