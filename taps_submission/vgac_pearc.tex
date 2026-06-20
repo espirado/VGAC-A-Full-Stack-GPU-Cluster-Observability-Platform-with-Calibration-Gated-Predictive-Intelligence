@@ -29,6 +29,7 @@
 \title{VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence}
 
 \author{Andrew Espira}
+\orcid{0009-0002-9196-8094}
 \affiliation{%
   \institution{Saint Peter's University}
   \department{Department of Data Science}
@@ -227,57 +228,24 @@ Decima~\cite{decima} learns scheduling policies via reinforcement learning but d
 \section{Conclusion}
 We present VGAC, a full-stack GPU cluster observability platform whose predictive intelligence is calibration-gated through a decision-theoretic framework that translates calibrated queue-delay probabilities into scheduling actions. The key insight is that calibration quality determines permissible action severity: a model must \emph{earn} each intervention tier through demonstrated ECE. We validate across the full instrumentation spectrum: a 2-feature floor model (ECE 0.077) honestly qualifies for annotation but not suggestion or gating, while the 17+\,feature production VGAC model (ECE 0.005) qualifies for all four tiers including autonomous admission gating. This $12.7\times$ ECE improvement from instrumentation investment creates a concrete upgrade path that is invisible to AUROC-only evaluation. The submit-time capture methodology ($r = -0.27 \to r = +0.44$) establishes that correct measurement is a prerequisite for correct decisions. Together with the companion reliability SLI/SLO framework~\cite{espira2026reliability}, VGAC completes the path from calibrated prediction to safe scheduling policy.
 
-\section*{Use of AI Assistance}
-Draft text of this paper was edited with the help of a large language model (Anthropic Claude). All results, tables, methodological choices, and interpretations were authored and verified by the human author; the language model did not generate experimental results. This disclosure follows ACM's policy on the use of generative AI in scholarly publications.
+\section*{Disclosure of Generative AI Use}
+In accordance with the ACM Policy on Authorship and the Use of Generative
+AI Tools, the author discloses the following: portions of the manuscript
+text were edited with the assistance of a large language model (Anthropic
+Claude, accessed during 2026) used as a writing aid for clarity, grammar,
+and concision on author-drafted content. The model was not used to
+generate experimental results, design or run experiments, interpret data,
+construct tables, derive equations, or compose citations. All scientific
+content---including the calibration framework, tier prerequisites,
+submit-time capture methodology, empirical results, tables, and the bibliography---
+was conceived, executed, and verified by the human author, who takes full
+responsibility for the integrity, originality, and accuracy of the work.
 
 \begin{acks}
 We thank the Saint Peter's University Department of Data Science for guidance and infrastructure support. The author thanks Tushar Dhole, Bhumi Nagar, and Sharath Kumar for ongoing collaboration on the broader GPU-cluster reliability research program.
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
-\begin{thebibliography}{8}
-
-\bibitem{espira2026reliability}
-A.\ Espira.
-\newblock Reliability SLIs and SLOs for GPU queue-delay prediction: A calibration-first framework.
-\newblock Companion paper, 2026.
-
-\bibitem{espira2026benchmark}
-A.\ Espira, T.\ Dhole, and S.\ Kumar.
-\newblock Calibration under extreme imbalance: A multi-cluster benchmark for operational queue-delay prediction.
-\newblock TechRxiv, 2026.
-\newblock DOI: 10.36227/techrxiv.177041829.96464119.
-
-\bibitem{decima}
-H.\ Mao et al.
-\newblock Learning scheduling algorithms for data processing clusters.
-\newblock In \emph{Proc.\ ACM SIGCOMM}, 2019, pp.\ 270--288.
-
-\bibitem{guo2017calibration}
-C.\ Guo, G.\ Pleiss, Y.\ Sun, and K.\ Q.\ Weinberger.
-\newblock On calibration of modern neural networks.
-\newblock In \emph{Proc.\ ICML}, 2017, pp.\ 1321--1330.
-
-\bibitem{platt1999}
-J.\ Platt.
-\newblock Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods.
-\newblock \emph{Advances in Large Margin Classifiers}, vol.\ 10, no.\ 3, pp.\ 61--74, 1999.
-
-\bibitem{borg}
-A.\ Verma et al.
-\newblock Large-scale cluster management at Google with Borg.
-\newblock In \emph{Proc.\ EuroSys}, 2015, pp.\ 1--17.
-
-\bibitem{firmament}
-I.\ Gog et al.
-\newblock Firmament: Fast, centralized cluster scheduling at scale.
-\newblock In \emph{Proc.\ OSDI}, 2016, pp.\ 99--115.
-
-\bibitem{elkan2001}
-C.\ Elkan.
-\newblock The foundations of cost-sensitive learning.
-\newblock In \emph{Proc.\ IJCAI}, 2001, pp.\ 973--978.
-
-\end{thebibliography}
+\bibliography{refs}
 
 \end{document}

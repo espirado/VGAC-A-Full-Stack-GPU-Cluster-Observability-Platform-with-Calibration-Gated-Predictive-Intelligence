@@ -6,31 +6,33 @@ can use to verify reproducibility without reading any code.
 
 Throughout the table, paths are relative to the repository root.
 
-## 1. Submit-time capture (Section 4 of the paper)
+## 1. Submit-time capture (Section 4 of the paper, Table 2)
 
 | Claim | Source | Backing artifact |
 | --- | --- | --- |
-| Periodic 30 s polling produces `r = -0.27` between `pending_at_submit` and wait time | `code/integration/` (capture pipeline) and `code/run_experiments.py` step 1 | `artifacts/cross_domain_analysis.json` field `pre_correction_pearson` (or recomputed in the notebook) |
-| 5 s submit-time capture restores `r = +0.44` | Same code paths, post-correction | `artifacts/cross_domain_analysis.json` field `post_correction_pearson` |
-| Submit-time capture is required for *correct decision rules* (not just data quality) | `docs/ARCHITECTURE.md` §2 | Reproduced in `notebooks/reproducibility.ipynb`, cell **"Step 1 — Submit-time capture correlation"** |
+| Periodic 30 s polling produces `r = -0.27` between `pending_at_submit` and observed wait time | `code/integration/` (capture pipeline) | `artifacts/vgac_submit_time_correlation.json` field `periodic_snapshot_30s.pearson_r` |
+| 5 s submit-time capture restores `r = +0.44` | Same code paths, post-correction | `artifacts/vgac_submit_time_correlation.json` field `submit_time_capture_5s.pearson_r` |
+| Submit-time capture is required for *correct decision rules* (not just data quality) | `docs/ARCHITECTURE.md` §2 | Notebook cell **Step 1 — Submit-time capture correlation** demonstrates the *protocol*; absolute `r` on the public sample differs from the paper's full-trace headline. |
 
-## 2. Floor model — 2 features (Section 5.2 of the paper)
+## 2. Floor model — 2 features (Section 5.2, Table 3)
 
 | Claim | Source | Backing artifact |
 | --- | --- | --- |
-| Floor classifier (logistic regression on `pending_at_submit`, `running_at_submit`) achieves AUROC = 0.756 | `code/run_experiments.py` (train_floor) | `artifacts/all_5_models_results.csv` row `eks_dec / floor / lr` |
+| Floor classifier on `pending_at_submit` + `running_at_submit` achieves AUROC = 0.756 | `code/run_experiments.py` (train_floor) | `artifacts/vgac_floor_vs_ceiling.csv`, row `floor` |
 | Floor classifier ECE = 0.077 after isotonic recalibration | Same | Same row, column `ece` |
-| Mid-range probabilities (0.35–0.52) show predicted-vs-actual gaps up to 0.188 | `code/evaluation/calibration.py` reliability-curve helper | `figures/calibration_curve.png` and the bin-level table the notebook prints |
-| Floor qualifies Tier 1 only; Tier 2 marginal (0.077 vs 0.07) | `code/policy/generator.py::get_qualified_tier` | Notebook cell **"Step 3 — Floor tier qualification"** |
+| Mid-range probabilities (0.35–0.52) show predicted-vs-actual gaps up to 0.188 | `code/evaluation/calibration.py` reliability-curve helper | Notebook cell **Step 3** + `figures/calibration_curve.png` |
+| Floor qualifies Tier 1 only; Tier 2 marginal (ECE 0.077 exceeds 0.07 prereq. by 0.007) | `code/policy/generator.py::get_qualified_tier` | `artifacts/vgac_floor_vs_ceiling.csv`, columns `tier_1_annotate` … `tier_4_gate` |
 
-## 3. Production VGAC — 17+ features (Section 5.3 of the paper)
+## 3. Production VGAC — 17+ features (Section 5.3, Tables 4 & 5)
 
 | Claim | Source | Backing artifact |
 | --- | --- | --- |
-| Production model achieves AUROC = 0.969 | `code/run_experiments.py` (train_ceiling) | `artifacts/all_5_models_results.csv` row `eks_dec / ceiling / gb` |
+| Production model achieves AUROC = 0.969 | `code/run_experiments.py` (train_ceiling) | `artifacts/vgac_floor_vs_ceiling.csv`, row `ceiling` |
 | Production model achieves ECE = 0.005 (well below Gate prereq. of 0.03) | Same | Same row, column `ece` |
-| Production model qualifies for **all four** tiers (1–4) | `code/policy/generator.py` | Notebook cell **"Step 4 — Ceiling tier qualification"** |
-| 12.7× ECE improvement (0.077 → 0.005) under feature enrichment | Direct from the table above | `artifacts/all_5_models_results.csv` |
+| Production model qualifies for **all four** tiers (1–4) | `code/policy/generator.py` | `artifacts/vgac_floor_vs_ceiling.csv`, columns `tier_*` |
+| 12.7× ECE improvement (0.077 → 0.005) under feature enrichment | Computed directly from the two rows of the artifact | `artifacts/vgac_floor_vs_ceiling.csv` |
+
+> **Provenance note.** `vgac_floor_vs_ceiling.csv` and `vgac_submit_time_correlation.json` reproduce the paper's headline numbers verbatim. Their underlying EKS dataset (650 raw → 582 usable rows for the floor study; 11 982 K8s+Slurm events for the ceiling study) lives on private Saint Peter's University AWS infrastructure and is not redistributed; the reconstruction protocol is documented in `code/integration/` and `docs/ARCHITECTURE.md`. The shipped `data/samples/` is a redistribution-safe cross-cluster slice that lets `notebooks/reproducibility.ipynb` execute end-to-end and reproduce the *qualitative* behaviour (tier qualification, graceful degradation, gain from feature enrichment).
 
 ## 4. Bootstrap confidence intervals
 

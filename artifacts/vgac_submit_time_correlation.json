@@ -1,0 +1,28 @@
+{
+  "study": "VGAC PEARC '26 paper Section 4 (Submit-Time Capture Methodology)",
+  "feature": "pending_at_submit",
+  "label": "wait_seconds_long (binary at P90)",
+  "dataset": {
+    "name": "EKS GPU cluster",
+    "instance_types": ["T4", "A10G"],
+    "n_records_raw": 650,
+    "n_records_usable": 582,
+    "deduplication_key": ["pod_uid", "transition_timestamp"]
+  },
+  "results": {
+    "periodic_snapshot_30s": {
+      "pearson_r": -0.27,
+      "interpretation": "Inverted (incorrect)"
+    },
+    "submit_time_capture_5s": {
+      "pearson_r": 0.44,
+      "interpretation": "Correct"
+    }
+  },
+  "method": {
+    "polling_cadence_seconds": 5,
+    "phase_transitions_observed": ["Pending->Running", "Running->Succeeded"],
+    "queue_state_recording": "at submit time"
+  },
+  "provenance": "Numbers reproduced verbatim from the VGAC PEARC '26 paper Table 2. Underlying EKS trace is private to Saint Peter's University AWS infrastructure and is not redistributed; the reconstruction protocol is documented in code/integration/ and docs/ARCHITECTURE.md."
+}
