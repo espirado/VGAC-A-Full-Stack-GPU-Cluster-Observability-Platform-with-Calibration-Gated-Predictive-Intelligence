@@ -56,36 +56,69 @@ On a real EKS GPU cluster ($n=650$ jobs), a 2-feature *floor* model honestly qua
 │
 ├── vgac_pearc_taps_submission.zip  pre-zipped TAPS bundle (.tex + .bbl + .bib + figures/)
 │
-├── code/                      installable Python package
-│   ├── calibration/           isotonic post-hoc calibrator (fit / transform / summary)
-│   │   └── isotonic.py
-│   ├── evaluation/            calibration metrics + bootstrap CIs + seeding
-│   │   ├── seeds.py           seed_everything(42)
-│   │   ├── calibration.py     ece, mce, reliability_curve, brier_decomposition
-│   │   └── bootstrap.py       1000-iter percentile CI for AUROC / AUPRC / Brier / ECE
-│   ├── features/              universal feature schema
-│   │   └── universal_schema.py
-│   ├── harness/               drift sensors
-│   │   ├── psi.py             Population Stability Index (Siddiqi)
-│   │   └── temporal_ece.py    sliding-window ECE
-│   ├── integration/           submit-time observability + adapters
-│   │   ├── submit_capture.py  K8s admission + Slurm job_submit hooks
+├── code/                      paper-curated package (small, top-down readable)
+│   ├── calibration/isotonic.py        post-hoc isotonic calibrator
+│   ├── evaluation/                    calibration metrics + bootstrap + seeding
+│   │   ├── seeds.py                   seed_everything(42)
+│   │   ├── calibration.py             ece, mce, reliability_curve, brier_decomposition
+│   │   └── bootstrap.py               1000-iter percentile CI for AUROC / AUPRC / Brier / ECE
+│   ├── features/universal_schema.py
+│   ├── harness/                       drift sensors
+│   │   ├── psi.py                     Population Stability Index (Siddiqi)
+│   │   └── temporal_ece.py            sliding-window ECE
+│   ├── integration/                   submit-time observability + adapters
+│   │   ├── submit_capture.py          K8s admission + Slurm job_submit hooks
 │   │   └── policy_translate.py
-│   ├── ops/                   runtime calibration monitor
-│   │   └── recalibrator.py    sliding-window recalibration trigger
-│   ├── policy/                graduated-intervention generator + gpu_ext bridge
+│   ├── ops/recalibrator.py            sliding-window recalibration trigger
+│   ├── policy/                        graduated-intervention generator + gpu_ext bridge
 │   │   ├── generator.py
 │   │   ├── gpu_ext_bridge.py
 │   │   └── inference_router.py
-│   ├── run_experiments.py     CLI: train + calibrate + qualify
-│   ├── generate_figures.py    CLI: regenerate every figure in figures/
-│   └── routing_simulation.py  routing-level simulation harness
+│   ├── run_experiments.py
+│   ├── generate_figures.py
+│   └── routing_simulation.py
+│
+├── src/                       production package (the upstream codebase that
+│                              `code/` was curated from). Imported as `src.*` so
+│                              the existing notebooks and CLIs run unchanged.
+│   ├── sli/compute.py                 4-SLI computation (ECE, Brier 3-way,
+│   │                                  tail calibration, PSI) + SLO-compliance check
+│   ├── tier/qualify.py                production tier-qualification + tier-matrix builder
+│   ├── eval/metrics.py                EvalResult / multiclass_brier
+│   ├── feature/extract_k8s_submit_features.py   K8s submit-time feature extractor
+│   ├── features/{schema,text}.py      unified feature schema + TF-IDF vectoriser
+│   ├── data/{unified_loader,alibaba_v2020,google_2019,
+│   │        gpu_v2025_dlrm,logs_loader}.py   multi-source loaders
+│   ├── train/                         CV / baseline / DLRM / quantile training
+│   ├── transfer/matrix.py             cross-cluster transfer matrix
+│   ├── models/{baselines,lgbm}.py     baseline LR + LightGBM pipelines
+│   └── visualization/, analysis/, utils/
 │
 ├── notebooks/
-│   └── reproducibility.ipynb  one-button reproduction of every paper claim
+│   ├── reproducibility.ipynb              one-button reproduction of every paper claim
+│   └── queue_lifecycle_exploration.ipynb  exploratory analysis of submit -> pending ->
+│                                          running -> succeeded transitions on the
+│                                          Slurm training dataset (906 KB, executed,
+│                                          imported from the upstream paper-2 work)
 │
-├── data/samples/              anonymised samples (EKS, Slurm, Alibaba, Borg)
+├── data/samples/              redistribution-safe samples
+│   ├── eks_dec_sample.csv                 EKS-Dec (45 KB)
+│   ├── slurm_sample.csv                   Slurm shipped sample (99 KB)
+│   ├── slurm_training_dataset.csv         FULL Slurm training dataset (141 KB,
+│   │                                      555 jobs x 38 features, with DCGM telemetry)
+│   ├── slurm_training_dataset_summary.json
+│   ├── alibaba_sample.csv                 Alibaba GPU-trace sample (77 KB)
+│   ├── borg_sample.csv                    Google Borg 2019 sample (358 KB)
+│   ├── cross_domain_analysis.json
+│   └── drift_metrics.json
+│
 ├── artifacts/                 benchmark CSV/JSON consumed by the paper
+│   ├── all_5_models_results.csv  bootstrap_confidence_intervals.csv
+│   ├── cross_domain_analysis.json  paper2_paper3_experiments.json
+│   ├── vgac_floor_vs_ceiling.csv  vgac_submit_time_correlation.json
+│   ├── legacy_paper4/                     landscape, SLI/SLO, heterogeneous, deep analysis
+│   └── legacy_paper2/                     paper-2 model evaluation + notebook results
+│
 ├── figures/                   PNG/PDF figures referenced in the paper
 │
 ├── docs/

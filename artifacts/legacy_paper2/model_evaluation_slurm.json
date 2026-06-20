@@ -1,0 +1,139 @@
+{
+  "evaluation_time": "2026-02-06T05:19:22.956706",
+  "dataset": "Slurm HPC (ParallelCluster)",
+  "n_samples": 555,
+  "n_train": 388,
+  "n_test": 167,
+  "features": [
+    "pending_ratio",
+    "queue_depth_norm",
+    "fragmentation_score",
+    "congestion_score",
+    "total_pending_x",
+    "pending_gpus_x",
+    "running_gpus_x",
+    "util_gpu_mean",
+    "util_gpu_std",
+    "util_gpu_max",
+    "util_mem_mean",
+    "temp_c_mean",
+    "temp_c_max",
+    "power_w_mean",
+    "mem_pressure",
+    "power_efficiency",
+    "job_type_encoded"
+  ],
+  "results": [
+    {
+      "model": "Logistic Regression",
+      "auc_roc": 0.5552941176470588,
+      "auc_pr": 0.152251134354813,
+      "brier": 0.09149049987887602,
+      "ece": 0.0409107518303536,
+      "mce": 0.04941305412716429,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier_reliability": 0.001728117648317776,
+      "brier_resolution": 0.0005299921969576673,
+      "brier_uncertainty": 0.09143389866972641,
+      "tail_calibration": []
+    },
+    {
+      "model": "Random Forest",
+      "auc_roc": 0.9831372549019608,
+      "auc_pr": 0.9512811716978882,
+      "brier": 0.02794093169472057,
+      "ece": 0.06705421745625179,
+      "mce": 0.6058576350666137,
+      "precision": 1.0,
+      "recall": 0.6470588235294118,
+      "f1": 0.7857142857142857,
+      "brier_reliability": 0.01710774487262662,
+      "brier_resolution": 0.08069981128893246,
+      "brier_uncertainty": 0.09143389866972641,
+      "tail_calibration": [
+        {
+          "threshold": 0.5,
+          "count": 11,
+          "actual": 1.0,
+          "predicted": 0.6375752907273918,
+          "gap": 0.36242470927260817
+        },
+        {
+          "threshold": 0.6,
+          "count": 9,
+          "actual": 1.0,
+          "predicted": 0.660300182714797,
+          "gap": 0.33969981728520304
+        },
+        {
+          "threshold": 0.7,
+          "count": 3,
+          "actual": 1.0,
+          "predicted": 0.7150881312266565,
+          "gap": 0.2849118687733435
+        }
+      ]
+    },
+    {
+      "model": "Gradient Boosting",
+      "auc_roc": 0.9854901960784312,
+      "auc_pr": 0.9521654815772462,
+      "brier": 0.00598797112023645,
+      "ece": 0.00598744060753607,
+      "mce": 0.006618093449063232,
+      "precision": 1.0,
+      "recall": 0.9411764705882353,
+      "f1": 0.9696969696969697,
+      "brier_reliability": 3.9602955902863705e-05,
+      "brier_resolution": 0.08548553050539284,
+      "brier_uncertainty": 0.09143389866972641,
+      "tail_calibration": [
+        {
+          "threshold": 0.5,
+          "count": 16,
+          "actual": 1.0,
+          "predicted": 0.9999643455843765,
+          "gap": 3.5654415623476154e-05
+        },
+        {
+          "threshold": 0.6,
+          "count": 16,
+          "actual": 1.0,
+          "predicted": 0.9999643455843765,
+          "gap": 3.5654415623476154e-05
+        },
+        {
+          "threshold": 0.7,
+          "count": 16,
+          "actual": 1.0,
+          "predicted": 0.9999643455843765,
+          "gap": 3.5654415623476154e-05
+        },
+        {
+          "threshold": 0.8,
+          "count": 16,
+          "actual": 1.0,
+          "predicted": 0.9999643455843765,
+          "gap": 3.5654415623476154e-05
+        }
+      ]
+    },
+    {
+      "model": "Calibrated LR (Isotonic)",
+      "auc_roc": 0.5590196078431373,
+      "auc_pr": 0.1872955925124553,
+      "brier": 0.09059834796521592,
+      "ece": 0.050883215518803405,
+      "mce": 0.6875,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "brier_reliability": 0.006018857045478968,
+      "brier_resolution": 0.005159273472945531,
+      "brier_uncertainty": 0.09143389866972641,
+      "tail_calibration": []
+    }
+  ]
+}

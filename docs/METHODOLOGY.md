@@ -6,6 +6,28 @@ can use to verify reproducibility without reading any code.
 
 Throughout the table, paths are relative to the repository root.
 
+## 0. Two views of the same code: `code/` and `src/`
+
+The repository ships **two import-compatible Python packages** that implement the
+same primitives at different levels of abstraction. Reviewers can use whichever
+one matches their reading style:
+
+| Concern | Curated `code/` (paper-tight) | Upstream `src/` (production) |
+| --- | --- | --- |
+| Calibration metrics | `code/evaluation/calibration.py` (`ece`, `mce`, `reliability_curve`, `brier_decomposition`) | `src/sli/compute.py` (`compute_ece`, `compute_brier_decomposition`, `compute_tail_calibration`, `compute_psi`, `compute_all_slis`, `check_slo_compliance`) |
+| Tier qualification | `code/policy/generator.py::PolicyGenerator` | `src/tier/qualify.py` (`qualify_tiers`, `build_tier_matrix`, `TierQualification`) |
+| Bootstrap CIs | `code/evaluation/bootstrap.py` | (not yet ported upstream — `code/` is the reference) |
+| Submit-time capture | `code/integration/submit_capture.py` (lightweight adapter pattern) | `src/feature/extract_k8s_submit_features.py` (production K8s extractor) |
+| Drift sensors | `code/harness/{psi,temporal_ece}.py` | `src/sli/compute.py::compute_psi` |
+| Multi-source loaders | (not in `code/`) | `src/data/{unified_loader,alibaba_v2020,google_2019,gpu_v2025_dlrm,logs_loader}.py` |
+| Training harnesses | `code/run_experiments.py` (single-file CLI) | `src/train/{run_cv,compare_models,train_baseline_lr,export_bundle}.py` |
+| Cross-cluster transfer | (deferred to follow-on paper) | `src/transfer/matrix.py` |
+
+The two packages produce identical results on shared primitives — the curated
+`code/` modules are deliberately small so the *paper's* claims map cleanly to
+specific functions, and the upstream `src/` package is the larger codebase
+those primitives were curated from.
+
 ## 1. Submit-time capture (Section 4 of the paper, Table 2)
 
 | Claim | Source | Backing artifact |

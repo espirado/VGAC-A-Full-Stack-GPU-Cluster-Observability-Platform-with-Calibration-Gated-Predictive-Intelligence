@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-02-06T05:16:52.258985",
+  "n_jobs": 555,
+  "n_features": 38,
+  "features": [
+    "job_id",
+    "submit_epoch_ms",
+    "total_pending_x",
+    "pending_gpus_x",
+    "job_type",
+    "start_epoch_ms",
+    "total_running",
+    "running_gpus_x",
+    "wait_ms",
+    "wait_seconds",
+    "wait_minutes",
+    "label_long_wait",
+    "wait_threshold_p90",
+    "pending_ratio",
+    "queue_depth_norm",
+    "fragmentation_score",
+    "congestion_score",
+    "total_pending_y",
+    "pending_gpus_y",
+    "running_gpus_y",
+    "gpu_nodes_alloc",
+    "gpu_nodes_total",
+    "util_gpu_mean",
+    "util_gpu_std",
+    "util_gpu_max",
+    "util_mem_mean",
+    "util_mem_std",
+    "util_mem_max",
+    "temp_c_mean",
+    "temp_c_max",
+    "power_w_mean",
+    "power_w_max",
+    "mem_used_mb_mean",
+    "mem_used_mb_max",
+    "mem_total_mb_first",
+    "power_efficiency",
+    "mem_pressure",
+    "job_type_encoded"
+  ],
+  "wait_stats": {
+    "p50_seconds": 35.0,
+    "p90_seconds": 133.0,
+    "p99_seconds": 329.0,
+    "max_seconds": 329.0
+  },
+  "class_balance": {
+    "n_long_wait": 55,
+    "n_short_wait": 500,
+    "positive_rate": 0.0990990990990991
+  },
+  "job_types": {
+    "burst": 177,
+    "medium": 130,
+    "short": 122,
+    "memheavy": 66,
+    "long": 54
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "dataset": {
+    "total_records": 650,
+    "valid_records": 650,
+    "slo_threshold_seconds": 120,
+    "slo_violation_rate": 0.4846153846153846
+  },
+  "queue_dynamics": {
+    "mean_pending_at_submit": 4.653846153846154,
+    "queue_wait_correlation": 0.5077788307504754
+  },
+  "calibration": {
+    "ece_raw": 0.05430602680655364,
+    "ece_calibrated": 0.0635676267444225,
+    "mce_raw": 0.15006048931962446,
+    "mce_calibrated": 0.24058738643049143,
+    "brier": 0.17607786110863052,
+    "auroc": 0.8055614072045503
+  },
+  "brier_decomposition": {
+    "reliability": 0.008129408129540338,
+    "resolution": 0.08068388573571125,
+    "uncertainty": 0.24967784352399736
+  }
+}

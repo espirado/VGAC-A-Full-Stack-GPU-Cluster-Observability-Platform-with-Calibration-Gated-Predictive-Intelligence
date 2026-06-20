@@ -1,0 +1,145 @@
+{
+  "slos": {
+    "ece_weekly": {
+      "target": 0.05,
+      "alert": 0.07,
+      "description": "Expected Calibration Error"
+    },
+    "mce": {
+      "target": 0.1,
+      "alert": 0.15,
+      "description": "Maximum Calibration Error"
+    },
+    "latency_p99": {
+      "target": 50,
+      "unit": "ms",
+      "description": "Prediction latency"
+    },
+    "availability": {
+      "target": 0.999,
+      "description": "Service availability"
+    },
+    "tail_gap": {
+      "target": 0.035,
+      "description": "Calibration gap in high-risk tail"
+    }
+  },
+  "slurm_results": {
+    "Logistic Regression": {
+      "auc_roc": 0.5552941176470588,
+      "auc_pr": 0.152251134354813,
+      "brier": 0.09149049987887602,
+      "ece": 0.0409107518303536,
+      "mce": 0.04941305412716429,
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "upper": 0.1,
+          "count": 99,
+          "accuracy": 0.1111111111111111,
+          "confidence": 0.07442197867148351,
+          "gap": 0.0366891324396276
+        },
+        {
+          "bin": 1,
+          "lower": 0.1,
+          "upper": 0.2,
+          "count": 63,
+          "accuracy": 0.07936507936507936,
+          "confidence": 0.12877813349224365,
+          "gap": 0.04941305412716429
+        },
+        {
+          "bin": 2,
+          "lower": 0.2,
+          "upper": 0.30000000000000004,
+          "count": 5,
+          "accuracy": 0.2,
+          "confidence": 0.21736980682691356,
+          "gap": 0.017369806826913553
+        }
+      ],
+      "tail": {
+        "max_gap": 0.0,
+        "by_threshold": []
+      },
+      "tail_gap": 0.0
+    },
+    "Gradient Boosting": {
+      "auc_roc": 0.9854901960784312,
+      "auc_pr": 0.9521654815772462,
+      "brier": 0.00598797112023645,
+      "ece": 0.00598744060753607,
+      "mce": 0.006618093449063232,
+      "reliability": [
+        {
+          "bin": 0,
+          "lower": 0.0,
+          "upper": 0.1,
+          "count": 151,
+          "accuracy": 0.006622516556291391,
+          "confidence": 4.4231072281585675e-06,
+          "gap": 0.006618093449063232
+        },
+        {
+          "bin": 9,
+          "lower": 0.9,
+          "upper": 1.0,
+          "count": 16,
+          "accuracy": 1.0,
+          "confidence": 0.9999643455843765,
+          "gap": 3.5654415623476154e-05
+        }
+      ],
+      "tail": {
+        "max_gap": 3.5654415623476154e-05,
+        "by_threshold": [
+          {
+            "threshold": 0.5,
+            "count": 16,
+            "actual": 1.0,
+            "predicted": 0.9999643455843765,
+            "gap": 3.5654415623476154e-05
+          },
+          {
+            "threshold": 0.6,
+            "count": 16,
+            "actual": 1.0,
+            "predicted": 0.9999643455843765,
+            "gap": 3.5654415623476154e-05
+          },
+          {
+            "threshold": 0.7,
+            "count": 16,
+            "actual": 1.0,
+            "predicted": 0.9999643455843765,
+            "gap": 3.5654415623476154e-05
+          },
+          {
+            "threshold": 0.8,
+            "count": 16,
+            "actual": 1.0,
+            "predicted": 0.9999643455843765,
+            "gap": 3.5654415623476154e-05
+          },
+          {
+            "threshold": 0.9,
+            "count": 16,
+            "actual": 1.0,
+            "predicted": 0.9999643455843765,
+            "gap": 3.5654415623476154e-05
+          }
+        ]
+      },
+      "tail_gap": 3.5654415623476154e-05
+    }
+  },
+  "thesis": "Calibration is what makes predictions actionable",
+  "key_evidence": [
+    "Cross-domain transfer fails (0.286 AUC)",
+    "Calibration enables reliability (0.006 ECE)",
+    "Tail calibration critical (0.000 gap)",
+    "SLO framework maps to SRE practices"
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "timestamp": "2026-02-06 08:43:13.602390",
+  "datasets_loaded": [
+    "EKS_Phase3",
+    "EKS_Nov2024",
+    "EKS_All",
+    "Slurm_HPC"
+  ],
+  "transfer_results": [
+    {
+      "source": "EKS_Phase3",
+      "target": "EKS_Phase3",
+      "auc": 0.7225264681881132,
+      "ece": 0.043231685447775864,
+      "brier": 0.1819550046477447,
+      "transfer_type": "in-domain"
+    },
+    {
+      "source": "EKS_Phase3",
+      "target": "EKS_Nov2024",
+      "auc": 0.9852979330122704,
+      "ece": 0.08861364056922326,
+      "brier": 0.019631658363756042,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_Phase3",
+      "target": "EKS_All",
+      "auc": 0.9449296018419171,
+      "ece": 0.7122403216374404,
+      "brier": 0.5827844130175222,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_Phase3",
+      "target": "Slurm_HPC",
+      "auc": 0.5530545454545454,
+      "ece": 0.09295931726401523,
+      "brier": 0.0978110346880896,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_Nov2024",
+      "target": "EKS_Phase3",
+      "auc": 0.721580356169797,
+      "ece": 0.22753889026329038,
+      "brier": 0.2549518038493382,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_Nov2024",
+      "target": "EKS_Nov2024",
+      "auc": 0.9852979330122704,
+      "ece": 0.0006873337963375008,
+      "brier": 0.009391969514348375,
+      "transfer_type": "in-domain"
+    },
+    {
+      "source": "EKS_Nov2024",
+      "target": "EKS_All",
+      "auc": 0.9449296018419171,
+      "ece": 0.5805857302657734,
+      "brier": 0.38856965695099194,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_Nov2024",
+      "target": "Slurm_HPC",
+      "auc": 0.5530545454545454,
+      "ece": 0.0841449302909219,
+      "brier": 0.09631971501591355,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_All",
+      "target": "EKS_Phase3",
+      "auc": 0.7225200887101848,
+      "ece": 0.3653911078259479,
+      "brier": 0.3874061253494396,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_All",
+      "target": "EKS_Nov2024",
+      "auc": 0.9852979330122704,
+      "ece": 0.028640979509350323,
+      "brier": 0.02599378853367769,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "EKS_All",
+      "target": "EKS_All",
+      "auc": 0.9449296018419171,
+      "ece": 0.0004979273556860268,
+      "brier": 0.01572109654856853,
+      "transfer_type": "in-domain"
+    },
+    {
+      "source": "EKS_All",
+      "target": "Slurm_HPC",
+      "auc": 0.5530545454545454,
+      "ece": 0.7911575117532997,
+      "brier": 0.7401968933972788,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "Slurm_HPC",
+      "target": "EKS_Phase3",
+      "auc": 0.7232718924632671,
+      "ece": 0.10324868268632892,
+      "brier": 0.19457747993846386,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "Slurm_HPC",
+      "target": "EKS_Nov2024",
+      "auc": 0.4843892969739929,
+      "ece": 0.07976511149296332,
+      "brier": 0.020121816022722172,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "Slurm_HPC",
+      "target": "EKS_All",
+      "auc": 0.6721998252866611,
+      "ece": 0.8014563249796853,
+      "brier": 0.7320967420635882,
+      "transfer_type": "cross-domain"
+    },
+    {
+      "source": "Slurm_HPC",
+      "target": "Slurm_HPC",
+      "auc": 0.5536909090909091,
+      "ece": 0.017745497513460412,
+      "brier": 0.08905862499746627,
+      "transfer_type": "in-domain"
+    }
+  ],
+  "imbalance_results": [
+    {
+      "dataset": "EKS_Nov2024",
+      "positive_rate": 0.013897550111358575,
+      "n_samples": 11225,
+      "auc": 0.9877119811387239,
+      "ece": 0.0027799992874107393
+    },
+    {
+      "dataset": "Slurm_HPC",
+      "positive_rate": 0.0990990990990991,
+      "n_samples": 555,
+      "auc": 0.48588235294117643,
+      "ece": 0.031643559971490855
+    },
+    {
+      "dataset": "EKS_Phase3",
+      "positive_rate": 0.29996141975308643,
+      "n_samples": 5184,
+      "auc": 0.7297856902684623,
+      "ece": 0.05121580367102971
+    },
+    {
+      "dataset": "EKS_All",
+      "positive_rate": 0.8994,
+      "n_samples": 50000,
+      "auc": 0.9417048471408105,
+      "ece": 0.0010347852193984053
+    }
+  ]
+}

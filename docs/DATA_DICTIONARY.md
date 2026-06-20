@@ -114,7 +114,41 @@ cross-reference). Top-level keys:
 - `tail_calibration` — ECE evaluated at thresholds {0.5, ..., 0.9}.
 - `false_action_rates` — FAR per tier.
 
-## 9. Notes on missing values and de-duplication
+## 9. `data/samples/slurm_training_dataset.csv` (full Slurm training dataset)
+
+The complete 555-job Slurm + DCGM training dataset that backs the SLO
+analysis in the companion ISS26 paper, imported here for reviewability.
+Same columns as `slurm_sample.csv` but with all 38 features and 555 rows
+(no sampling). 141 KB.
+
+## 10. `data/samples/slurm_training_dataset_summary.json`
+
+Top-level summary computed once over `slurm_training_dataset.csv`:
+positive rate, P90 wait threshold, feature counts, missing-value
+fractions per column. Exists so reviewers can audit dataset shape
+without loading the CSV.
+
+## 11. `artifacts/legacy_paper4/` (upstream supporting artifacts)
+
+Historical artifacts produced during the broader research program that
+preceded this short paper. Kept for provenance and cross-reference; not
+required by the camera-ready text.
+
+| File | Schema |
+| --- | --- |
+| `landscape.csv`              | Cross-environment landscape: per-(env, model, feature_set) AUROC and ECE. |
+| `sli_slo_analysis.json`      | SLI / SLO compliance results across the 4-environment matrix. |
+| `heterogeneous_analysis.json`| Heterogeneity analysis: feature richness, label imbalance, calibration shape. |
+| `deep_analysis_results.json` | Deep-dive artefact aggregating reliability-diagram bins and tail-gap statistics. |
+
+## 12. `artifacts/legacy_paper2/` (companion paper's evaluation artifacts)
+
+| File | Schema |
+| --- | --- |
+| `model_evaluation_slurm.json` | Per-model AUROC / AUPRC / Brier / ECE on the 555-job Slurm split with DCGM enrichment. |
+| `paper2_notebook_results.json`| Aggregate results emitted at the end of the paper-2 reproducibility notebook. |
+
+## 13. Notes on missing values and de-duplication
 
 EKS-Dec rows are de-duplicated on `(pod_uid, transition_timestamp)` to remove
 double-emission caused by Kubernetes informer re-deliveries. After

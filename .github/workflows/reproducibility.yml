@@ -26,7 +26,7 @@ jobs:
           pip install -r requirements.txt
           pip install nbconvert jupyter
 
-      - name: Smoke-test every Python module
+      - name: Smoke-test the curated code/ package
         run: |
           python -m code.evaluation.seeds
           python -m code.evaluation.calibration
@@ -34,7 +34,22 @@ jobs:
           python -m code.calibration.isotonic
           python -m code.integration.submit_capture
           python -m code.ops.recalibrator
-          python -c "from code.evaluation import seed_everything, ece, mce, percentile_ci, brier_decomposition; from code.calibration import fit_isotonic; from code.integration import SubmitTimeCapturer, K8sAdmissionAdapter, SlurmJobSubmitAdapter; from code.ops import SlidingWindowRecalibrator; from code.harness import psi; print('all VGAC modules import cleanly')"
+          python -c "from code.evaluation import seed_everything, ece, mce, percentile_ci, brier_decomposition; from code.calibration import fit_isotonic; from code.integration import SubmitTimeCapturer, K8sAdmissionAdapter, SlurmJobSubmitAdapter; from code.ops import SlidingWindowRecalibrator; from code.harness import psi; print('code.* imports cleanly')"
+
+      - name: Smoke-test the upstream src/ package
+        run: |
+          python -c "from src.sli import compute_all_slis, check_slo_compliance, SLIResult, BrierDecomposition; from src.tier import qualify_tiers, build_tier_matrix, TierQualification; from src.eval.metrics import EvalResult, multiclass_brier; from src.data.unified_loader import load_eks_features; print('src.* imports cleanly')"
+          python -c "
+          import numpy as np
+          from src.sli import compute_all_slis, check_slo_compliance
+          rng = np.random.default_rng(42)
+          n = 1_000
+          y = rng.binomial(1, 0.3, size=n)
+          p = np.clip(0.3 + 0.4 * (y - 0.3) + rng.normal(0, 0.1, size=n), 0, 1)
+          slis = compute_all_slis(y, p, n_bins=15)
+          print('SLIResult fields:', list(vars(slis).keys()))
+          print('SLO compliance :', check_slo_compliance(slis))
+          "
 
       - name: Execute reproducibility notebook end-to-end
         run: |

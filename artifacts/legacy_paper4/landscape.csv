@@ -1,0 +1,14 @@
+System,Provider,Type,Prediction,Calibration,Multi-Cluster,Open-Source,Key Limitation
+Google DWS Calendar,Google Cloud,Reservation,No,No,Limited,No,Requires advance planning up to 90 days
+Google DWS Flex Start,Google Cloud,Queue,No,No,Limited,No,No completion time estimates
+SkyPilot,UC Berkeley,Orchestrator,No,No,Yes,Yes,Uses current availability only
+Kueue,Kubernetes SIG,Scheduler,No,No,No,Yes,Quota-based decisions only
+NVIDIA Run:AI,NVIDIA,Orchestrator,Limited,No,Yes,Partial,Reactive not predictive
+KAI Scheduler,NVIDIA (OSS),Scheduler,No,No,No,Yes,Fair-share only
+Cerebras WSE,Cerebras,Hardware,N/A,N/A,No,No,Not applicable to GPU clusters
+Slurm,SchedMD,Scheduler,Limited,No,No,Yes,HPC-focused heuristics
+Azure Reserved Capacity,Microsoft,Reservation,No,No,No,No,Long-term commitment required
+Lambda Labs,Lambda,Queue,No,No,No,No,Simple FIFO queue
+CoreWeave,CoreWeave,Queue,Limited,No,Limited,No,Priority-based only
+Nebius,Nebius,Visibility,No,No,Limited,No,Capacity dashboard no prediction
+Calibration-Aware Layer,Proposed,Prediction,Yes,Yes,Yes,Proposed,Work in progress
