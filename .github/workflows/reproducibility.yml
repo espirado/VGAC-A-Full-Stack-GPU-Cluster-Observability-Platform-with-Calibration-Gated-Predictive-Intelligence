@@ -1,0 +1,85 @@
+name: reproducibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  notebook:
+    name: Run reproducibility notebook on a clean Python image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install nbconvert jupyter
+
+      - name: Smoke-test every Python module
+        run: |
+          python -m code.evaluation.seeds
+          python -m code.evaluation.calibration
+          python -m code.evaluation.bootstrap
+          python -m code.calibration.isotonic
+          python -m code.integration.submit_capture
+          python -m code.ops.recalibrator
+          python -c "from code.evaluation import seed_everything, ece, mce, percentile_ci, brier_decomposition; from code.calibration import fit_isotonic; from code.integration import SubmitTimeCapturer, K8sAdmissionAdapter, SlurmJobSubmitAdapter; from code.ops import SlidingWindowRecalibrator; from code.harness import psi; print('all VGAC modules import cleanly')"
+
+      - name: Execute reproducibility notebook end-to-end
+        run: |
+          jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=600 \
+            --output executed_reproducibility.ipynb \
+            notebooks/reproducibility.ipynb
+
+      - name: Upload executed notebook
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: executed-notebook
+          path: notebooks/executed_reproducibility.ipynb
+          retention-days: 14
+
+  paper:
+    name: Build the camera-ready PDF
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build PDF (pdflatex + bibtex + pdflatex x2)
+        working-directory: tex
+        run: |
+          pdflatex -interaction=nonstopmode vgac_pearc.tex
+          bibtex vgac_pearc
+          pdflatex -interaction=nonstopmode vgac_pearc.tex
+          pdflatex -interaction=nonstopmode vgac_pearc.tex
+
+      - name: Verify the build is exactly 4 pages
+        working-directory: tex
+        run: |
+          pages=$(pdfinfo vgac_pearc.pdf | awk '/^Pages:/ {print $2}')
+          echo "Built PDF has $pages page(s)"
+          if [ "$pages" != "4" ]; then
+            echo "::error::Expected a 4-page short paper, got $pages pages"
+            exit 1
+          fi
+
+      - name: Upload built PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vgac_pearc_pdf
+          path: tex/vgac_pearc.pdf
+          retention-days: 30

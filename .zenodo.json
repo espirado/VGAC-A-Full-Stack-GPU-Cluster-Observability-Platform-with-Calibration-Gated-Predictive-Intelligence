@@ -40,8 +40,15 @@
     },
     {
       "relation": "isPartOf",
-      "identifier": "https://github.com/espirado/VGAC",
-      "resource_type": "software"
+      "identifier": "https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence",
+      "resource_type": "software",
+      "scheme": "url"
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "https://espiradev.org/blog/llm-calibration-simulation.html",
+      "resource_type": "other",
+      "scheme": "url"
     }
   ],
   "conference_title": "Practice and Experience in Advanced Research Computing 2026 (PEARC '26)",

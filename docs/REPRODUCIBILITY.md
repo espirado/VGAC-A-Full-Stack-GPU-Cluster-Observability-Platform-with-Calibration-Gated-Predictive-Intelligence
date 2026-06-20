@@ -73,22 +73,28 @@ The camera-ready PDF is already in `tex/vgac_pearc.pdf`. To rebuild it:
 ```bash
 cd tex
 docker run --rm -v "$PWD":/work -w /work texlive/texlive:latest \
-  pdflatex -interaction=nonstopmode vgac_pearc.tex
+  bash -lc 'pdflatex -interaction=nonstopmode vgac_pearc.tex \
+    && bibtex vgac_pearc \
+    && pdflatex -interaction=nonstopmode vgac_pearc.tex \
+    && pdflatex -interaction=nonstopmode vgac_pearc.tex'
 ```
 
 Or, with a local TeX Live install:
 
 ```bash
-cd tex && pdflatex vgac_pearc.tex
+cd tex && pdflatex vgac_pearc.tex && bibtex vgac_pearc \
+       && pdflatex vgac_pearc.tex && pdflatex vgac_pearc.tex
 ```
 
-Two passes are sufficient because the bibliography is embedded.
+Bibliography lives in `tex/refs.bib` (ACM-Reference-Format) so all four
+passes are required for the citations to resolve cleanly.
 
 ## 5. TAPS submission package
 
-The TAPS upload bundle is `taps_submission/` (sources + compiled PDF). It is
-also pre-zipped as `vgac_pearc_taps_submission.zip` at the repo root. The
-ACM TAPS upload flow is documented in `submission/TAPS_UPLOAD.md`.
+The TAPS upload bundle is the pre-zipped `vgac_pearc_taps_submission.zip` at
+the repo root, containing `vgac_pearc.tex`, `vgac_pearc.bbl`, `refs.bib`, and
+`figures/`. The ACM TAPS upload flow is documented in
+`submission/TAPS_UPLOAD.md`.
 
 ## 6. Verifying claims numerically
 

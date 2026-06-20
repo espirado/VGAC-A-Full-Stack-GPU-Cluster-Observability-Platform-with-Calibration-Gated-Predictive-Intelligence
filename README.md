@@ -2,9 +2,11 @@
 
 [![DOI](https://img.shields.io/badge/DOI-10.1145%2F3785462.3815816-blue)](https://doi.org/10.1145/3785462.3815816)
 [![Zenodo DOI](https://img.shields.io/badge/Zenodo-PENDING-yellow)](https://doi.org/10.5281/zenodo.PENDING)
+[![Reproducibility CI](https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence/actions/workflows/reproducibility.yml/badge.svg)](https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence/actions/workflows/reproducibility.yml)
 [![License: MIT (code)](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![License: CC-BY-4.0 (paper)](https://img.shields.io/badge/Paper-CC--BY%204.0-orange.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![PEARC '26](https://img.shields.io/badge/Venue-PEARC%20'26-red)](https://pearc.acm.org/pearc26/)
+[![Live demo](https://img.shields.io/badge/Live%20demo-Calibration%20%26%20Reliability%20Observatory-purple)](https://espiradev.org/blog/llm-calibration-simulation.html)
 
 Reproducible artifact accompanying the paper:
 
@@ -48,19 +50,33 @@ On a real EKS GPU cluster ($n=650$ jobs), a 2-feature *floor* model honestly qua
 │
 ├── tex/                       camera-ready LaTeX source + PDF
 │   ├── vgac_pearc.tex         ACM acmart sigconf source
-│   └── vgac_pearc.pdf         compiled camera-ready
+│   ├── refs.bib               BibTeX (ACM-Reference-Format)
+│   ├── vgac_pearc.bbl         compiled bibliography (TAPS-required)
+│   └── vgac_pearc.pdf         compiled camera-ready (4 pp)
 │
-├── taps_submission/           TAPS upload bundle
-├── vgac_pearc_taps_submission.zip  pre-zipped TAPS bundle
+├── vgac_pearc_taps_submission.zip  pre-zipped TAPS bundle (.tex + .bbl + .bib + figures/)
 │
-├── code/
-│   ├── policy/                tier-qualification + gpu_ext bridge + LLM router
-│   ├── integration/           submit-time capture, admission webhook glue
-│   ├── evaluation/            metric helpers, bootstrap CIs
+├── code/                      installable Python package
+│   ├── calibration/           isotonic post-hoc calibrator (fit / transform / summary)
+│   │   └── isotonic.py
+│   ├── evaluation/            calibration metrics + bootstrap CIs + seeding
+│   │   ├── seeds.py           seed_everything(42)
+│   │   ├── calibration.py     ece, mce, reliability_curve, brier_decomposition
+│   │   └── bootstrap.py       1000-iter percentile CI for AUROC / AUPRC / Brier / ECE
 │   ├── features/              universal feature schema
-│   ├── harness/               PSI, temporal-ECE drift detection
-│   ├── ops/                   ops/runbook helpers
-│   ├── calibration/           isotonic calibrator wrappers
+│   │   └── universal_schema.py
+│   ├── harness/               drift sensors
+│   │   ├── psi.py             Population Stability Index (Siddiqi)
+│   │   └── temporal_ece.py    sliding-window ECE
+│   ├── integration/           submit-time observability + adapters
+│   │   ├── submit_capture.py  K8s admission + Slurm job_submit hooks
+│   │   └── policy_translate.py
+│   ├── ops/                   runtime calibration monitor
+│   │   └── recalibrator.py    sliding-window recalibration trigger
+│   ├── policy/                graduated-intervention generator + gpu_ext bridge
+│   │   ├── generator.py
+│   │   ├── gpu_ext_bridge.py
+│   │   └── inference_router.py
 │   ├── run_experiments.py     CLI: train + calibrate + qualify
 │   ├── generate_figures.py    CLI: regenerate every figure in figures/
 │   └── routing_simulation.py  routing-level simulation harness
@@ -83,10 +99,18 @@ On a real EKS GPU cluster ($n=650$ jobs), a 2-feature *floor* model honestly qua
     └── CAMERA_READY_CHANGES.md  diff vs reviewer copy
 ```
 
+## Live demo
+
+A companion **interactive calibration & reliability observatory** runs the same isotonic-calibration / drift-detection / SLO pipeline that VGAC formalises, against simulated workloads in the browser:
+
+> [Calibration & Reliability Observatory](https://espiradev.org/blog/llm-calibration-simulation.html) — watch ECE diverge from the diagonal, click *Inject Drift*, and see the PSI / SLO burn-rate alerts and recalibration cue fire end-to-end.
+
+The deployed VGAC platform showcase URL will be added once it is public.
+
 ## Quickstart (5 minutes)
 
 ```bash
-git clone https://github.com/espirado/VGAC
+git clone https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence.git VGAC
 cd VGAC
 conda env create -f environment.yml
 conda activate vgac
@@ -118,11 +142,11 @@ docker run --rm -v "$PWD":/data -w /data texlive/texlive:latest \
   bash -lc 'pdflatex vgac_pearc.tex && pdflatex vgac_pearc.tex'
 ```
 
-Or with a local TeX Live install: `cd tex && pdflatex vgac_pearc.tex` twice. The bibliography is embedded; no `.bib`/`.bbl` is needed.
+Or with a local TeX Live install: `cd tex && pdflatex vgac_pearc.tex && bibtex vgac_pearc && pdflatex vgac_pearc.tex && pdflatex vgac_pearc.tex`. The bibliography is in `tex/refs.bib` (ACM-Reference-Format).
 
 ## TAPS submission
 
-The TAPS upload bundle is `vgac_pearc_taps_submission.zip` and `taps_submission/`. The upload procedure and the TAPS *Check Paper Details* checklist are in `submission/TAPS_UPLOAD.md`.
+The TAPS upload bundle is `vgac_pearc_taps_submission.zip` (auto-generated, contains `vgac_pearc.tex`, `vgac_pearc.bbl`, `refs.bib`, and `figures/`). The upload procedure and the TAPS *Check Paper Details* checklist are in `submission/TAPS_UPLOAD.md`.
 
 ## How to cite
 
@@ -149,7 +173,7 @@ Please cite both the ACM conference paper and the software artifact:
   year    = {2026},
   version = {1.0.0},
   doi     = {10.5281/zenodo.PENDING},
-  url     = {https://github.com/espirado/VGAC},
+  url     = {https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence},
 }
 ```
 
@@ -159,6 +183,7 @@ Please cite both the ACM conference paper and the software artifact:
 
 - **Companion paper (SLI/SLO foundation).** Espira et al., *Reliability-First Queue Risk for GPU Clusters: Calibration, SLOs, and Reproducible Operational Integration*, ISS26 — repo: <https://github.com/espirado/Reliability-First-Queue-Risk>.
 - **Cross-cluster benchmark.** Espira, Dhole, Kumar, *Calibration under extreme imbalance: A multi-cluster benchmark for operational queue-delay prediction*, TechRxiv 2026 (DOI: 10.36227/techrxiv.177041829.96464119).
+- **Live calibration & reliability observatory.** Interactive showcase of the same isotonic calibration / drift / SLO pipeline VGAC formalises: <https://espiradev.org/blog/llm-calibration-simulation.html>.
 - **Sentinel.** Companion eBPF / MCP-server prototype — repo: <https://github.com/espirado/SENTINEL>.
 
 ## Use of AI assistance

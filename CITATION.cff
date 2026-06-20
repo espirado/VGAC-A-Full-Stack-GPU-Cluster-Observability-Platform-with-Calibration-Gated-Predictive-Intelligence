@@ -20,8 +20,8 @@ abstract: >-
 version: 1.0.0
 date-released: "2026-07-01"
 license: MIT
-repository-code: "https://github.com/espirado/VGAC"
-url: "https://github.com/espirado/VGAC"
+repository-code: "https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence"
+url: "https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence"
 authors:
   - family-names: Espira
     given-names: Andrew
@@ -53,8 +53,11 @@ identifiers:
     value: "10.5281/zenodo.PENDING"
     description: "Zenodo archive of v1.0.0 (auto-deposited from GitHub release)"
   - type: url
-    value: "https://github.com/espirado/VGAC/releases/tag/v1.0.0"
+    value: "https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence/releases/tag/v1.0.0"
     description: "GitHub release v1.0.0 (camera-ready PEARC '26 artifact)"
+  - type: url
+    value: "https://espiradev.org/blog/llm-calibration-simulation.html"
+    description: "Live calibration & reliability observatory \u2014 interactive showcase of the isotonic-calibration / drift-detection / SLO pipeline that VGAC formalises"
 references:
   - type: software
     title: "scikit-learn"
