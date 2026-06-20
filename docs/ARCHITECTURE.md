@@ -1,38 +1,49 @@
 # VGAC Architecture
 
 This document describes the system architecture of VGAC (the artifact accompanying the
-PEARC '26 paper). It mirrors the structure of the paper but adds implementation-level
-detail that did not fit in the camera-ready.
+PEARC '26 short paper). It mirrors the structure of the paper but adds implementation-level
+detail that did not fit in the 4-page camera-ready.
 
 ## 1. Conceptual model
 
-VGAC is a **calibration-gated predictive intelligence layer** sitting between a GPU
-cluster's submit-time interface and its scheduler. The core invariant is:
+VGAC is a **full-stack GPU cluster observability platform** whose predictive
+intelligence is **calibration-gated**. The platform's distinguishing claim is
+that it elevates the model's *measured* calibration to a first-class observability
+signal — and uses it to gate its own actions. The core invariant is:
 
 > A predictive intervention is permitted only when the underlying probability is
-> calibrated well enough to support it.
+> calibrated well enough to support it, *as continuously observed by the platform*.
 
-The platform has three layers, each with a clearly defined responsibility:
+The platform has three observability layers, each with a clearly defined contract
+to the layer above it:
 
 ```
 +------------------------------------------------------------------+
-|  L3: Decision Layer    (graduated intervention framework)        |
+|  L3: Decision Layer    (calibration-gated graduated intervention)|
 |      - Tier rules:  apply a if  p_hat >= eps_a  AND  ECE <= R_a  |
 |      - Per-tier qualification gate (Annotate, Warn, Suggest, Gate)
+|      - Re-evaluated every request against L2's rolling ECE       |
 +------------------------------------------------------------------+
-|  L2: Prediction Layer  (calibration-aware classifier)            |
-|      - Logistic regression / GB / RF / XGBoost / LightGBM        |
+|  L2: Prediction + Calibration-Telemetry Layer                    |
+|      - Calibration-aware classifier (LR / GB / RF / XGB / LGBM)  |
 |      - Isotonic post-hoc calibration                             |
-|      - Rolling ECE / MCE / Brier monitor                         |
+|      - Rolling-window ECE / MCE / Brier monitor (the "first-     |
+|        class observability signal" cited in the paper)           |
 +------------------------------------------------------------------+
-|  L1: Capture Layer     (submit-time queue-state instrumentation) |
+|  L1: Capture Layer     (submit-time observability instrumentation)|
 |      - 5 s polling  -> phase-transition detection                |
 |      - Records cluster state at the exact moment a job submits   |
 |      - Writes to feature store consumed by L2                    |
+|      - Without this, downstream features are lagging indicators  |
+|        (paper's r = -0.27 -> +0.44 correction in Section 4)      |
 +------------------------------------------------------------------+
 ```
 
-Each layer has a small, well-defined contract with the layer above it.
+Notice that **calibration telemetry feeds back into the decision layer in real
+time**: this is what makes the platform *full-stack* observability rather than
+just a pipeline. The system observes its own predictions and lets those
+observations restrict its own actions — graceful degradation is therefore a
+visible, measurable property of the platform, not a build-time decision.
 
 ## 2. Layer 1 — Submit-time capture
 

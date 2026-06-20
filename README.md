@@ -8,15 +8,23 @@
 
 Reproducible artifact accompanying the paper:
 
-> **Espira, A. (2026).** *VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence.* In **Practice and Experience in Advanced Research Computing 2026 (PEARC '26)**, July 26–30, Minneapolis, MN, USA. ACM. <https://doi.org/10.1145/3785462.3815816>
+> **Espira, A. (2026).** *VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence.* In **Practice and Experience in Advanced Research Computing 2026 (PEARC '26)**, July 26–30, Minneapolis, MN, USA. ACM. <https://doi.org/10.1145/3785462.3815816> (PEARC '26 short paper, 4 pages.)
 
-This repository is the canonical home for everything needed to read, run, and verify VGAC: the camera-ready paper, the calibration-gated prediction pipeline, the four-tier intervention framework, the submit-time capture methodology, the K8s and Slurm integration scaffolding, and a notebook that reproduces every figure on shipped sample data.
+## What VGAC is
 
-> **Companion artifact.** ISS26 Paper 2 (*Reliability-First Queue Risk for GPU Clusters*) defines the SLI/SLO framework that VGAC builds on top of. It lives in a separate repository (`espirado/Reliability-First-Queue-Risk`) and uses the IEEE conference template; see [Related work](#related-work).
+VGAC is a **full-stack observability platform** for GPU clusters whose distinguishing feature is **calibration-gated predictive intelligence**. The platform observes cluster state at submit time, monitors the calibration of its own predictive models *as a first-class observability signal*, and lets that observed calibration determine which predictive interventions the platform is permitted to take. Predictive features are gated by an observability check on themselves.
+
+Concretely, the platform is three layers tied together by a single invariant:
+
+- **Capture layer** — submit-time observability instrumentation (5 s polling, phase-transition detection) that records cluster state at the moment of submission. Without this, a downstream feature like `pending_at_submit` is a lagging indicator (the paper's Pearson `r = -0.27 → +0.44` correction in §4).
+- **Prediction layer** — calibration-aware classifier with isotonic post-hoc calibration and an online rolling **Expected Calibration Error / Brier / MCE monitor** (treating calibration drift as a telemetry signal).
+- **Decision layer** — a graduated intervention framework whose four tiers (Annotate, Warn, Suggest, Gate) carry **explicit calibration prerequisites**. A model only earns a tier when its currently-observed ECE is at or below that tier's prerequisite; if calibration drifts, the higher-stakes tiers automatically retire.
+
+> **Companion artifact.** ISS26 Paper 2 (*Reliability-First Queue Risk for GPU Clusters*) defines the SLI/SLO framework that VGAC's calibration monitor builds on. It lives in a separate repository (`espirado/Reliability-First-Queue-Risk`) and uses the IEEE conference template; see [Related work](#related-work).
 
 ## TL;DR
 
-VGAC enforces the rule **"apply action $a$ if $\hat{p} \ge \varepsilon_a$ AND $\text{ECE} \le R_a$"** — a model must *earn* each tier of intervention through demonstrated calibration quality.
+VGAC enforces the rule **"apply action $a$ if $\hat{p} \ge \varepsilon_a$ AND $\text{ECE} \le R_a$"** — a model must *earn* each tier of intervention through demonstrated calibration quality, observed continuously.
 
 | Tier | Action | $\varepsilon_a$ | ECE prereq. |
 | ---- | ------ | --------------- | ----------- |
