@@ -106,8 +106,10 @@ Long-form benchmark table consumed by Tables 3 and 4 of the paper.
 
 ## 8. `artifacts/paper2_paper3_experiments.json`
 
-Snapshot of all experiments used in the companion ISS26 paper (kept here for
-cross-reference). Top-level keys:
+Snapshot of broader queue-risk experiments from the wider research program,
+kept here so the cross-environment context (Slurm 555-job, tier qualification,
+tail calibration, FAR) that motivates VGAC's gating tiers is fully auditable.
+Top-level keys:
 
 - `submit_only` / `dcgm_enriched` — Slurm 555 results.
 - `tier_qualification` — per-model tier assignment.
@@ -116,10 +118,11 @@ cross-reference). Top-level keys:
 
 ## 9. `data/samples/slurm_training_dataset.csv` (full Slurm training dataset)
 
-The complete 555-job Slurm + DCGM training dataset that backs the SLO
-analysis in the companion ISS26 paper, imported here for reviewability.
-Same columns as `slurm_sample.csv` but with all 38 features and 555 rows
-(no sampling). 141 KB.
+The complete 555-job Slurm + DCGM training dataset from the wider Saint
+Peter's GPU-cluster reliability research program, imported here for full
+reviewability of the cross-environment context that motivates VGAC's
+calibration tiers. Same columns as `slurm_sample.csv` but with all 38
+features and 555 rows (no sampling). 141 KB.
 
 ## 10. `data/samples/slurm_training_dataset_summary.json`
 
@@ -141,7 +144,7 @@ required by the camera-ready text.
 | `heterogeneous_analysis.json`| Heterogeneity analysis: feature richness, label imbalance, calibration shape. |
 | `deep_analysis_results.json` | Deep-dive artefact aggregating reliability-diagram bins and tail-gap statistics. |
 
-## 12. `artifacts/legacy_paper2/` (companion paper's evaluation artifacts)
+## 12. `artifacts/legacy_paper2/` (queue-risk evaluation artifacts)
 
 | File | Schema |
 | --- | --- |

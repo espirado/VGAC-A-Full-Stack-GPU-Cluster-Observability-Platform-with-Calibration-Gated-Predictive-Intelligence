@@ -50,9 +50,21 @@
     },
     {
       "relation": "isDocumentedBy",
+      "identifier": "https://demo.vgac.cloud/",
+      "resource_type": "other",
+      "scheme": "url"
+    },
+    {
+      "relation": "isDocumentedBy",
       "identifier": "https://espiradev.org/blog/llm-calibration-simulation.html",
       "resource_type": "other",
       "scheme": "url"
+    },
+    {
+      "relation": "cites",
+      "identifier": "10.36227/techrxiv.177041829.96464119",
+      "resource_type": "publication-preprint",
+      "scheme": "doi"
     }
   ],
   "conference_title": "Practice and Experience in Advanced Research Computing 2026 (PEARC '26)",

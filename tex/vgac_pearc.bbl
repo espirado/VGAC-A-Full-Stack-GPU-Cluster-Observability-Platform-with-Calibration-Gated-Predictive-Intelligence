@@ -1,0 +1,135 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{7}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Elkan(2001)]%
+        {elkan2001}
+\bibfield{author}{\bibinfo{person}{Charles Elkan}.}
+  \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{The Foundations of Cost-Sensitive Learning}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 17th International Joint
+  Conference on Artificial Intelligence (IJCAI '01)}}.
+  \bibinfo{publisher}{Morgan Kaufmann Publishers Inc.}, \bibinfo{address}{San
+  Francisco, CA, USA}, \bibinfo{pages}{973--978}.
+\newblock
+
+
+\bibitem[Espira et~al\mbox{.}(2026)]%
+        {espira2026benchmark}
+\bibfield{author}{\bibinfo{person}{Andrew Espira}, \bibinfo{person}{Tushar
+  Dhole}, {and} \bibinfo{person}{Sharath Kumar}.}
+  \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{Calibration Under Extreme Imbalance: A Multi-Cluster
+  Benchmark for Operational Queue-Delay Prediction}.
+\newblock \bibinfo{howpublished}{Preprint}.
+\newblock
+\href{https://doi.org/10.36227/techrxiv.177041829.96464119}{doi:\nolinkurl{10.36227/techrxiv.177041829.96464119}}
+
+
+\bibitem[Gog et~al\mbox{.}(2016)]%
+        {firmament}
+\bibfield{author}{\bibinfo{person}{Ionel Gog}, \bibinfo{person}{Malte
+  Schwarzkopf}, \bibinfo{person}{Adam Gleave}, \bibinfo{person}{Robert N.~M.
+  Watson}, {and} \bibinfo{person}{Steven Hand}.}
+  \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Firmament: Fast, Centralized Cluster Scheduling at
+  Scale}. In \bibinfo{booktitle}{\emph{Proceedings of the 12th USENIX Symposium
+  on Operating Systems Design and Implementation (OSDI '16)}}.
+  \bibinfo{publisher}{USENIX Association}, \bibinfo{address}{Berkeley, CA,
+  USA}, \bibinfo{pages}{99--115}.
+\newblock
+
+
+\bibitem[Guo et~al\mbox{.}(2017)]%
+        {guo2017calibration}
+\bibfield{author}{\bibinfo{person}{Chuan Guo}, \bibinfo{person}{Geoff Pleiss},
+  \bibinfo{person}{Yu Sun}, {and} \bibinfo{person}{Kilian~Q. Weinberger}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{On Calibration of Modern Neural Networks}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 34th International Conference on
+  Machine Learning (ICML '17)}} \emph{(\bibinfo{series}{Proceedings of Machine
+  Learning Research}, Vol.~\bibinfo{volume}{70})}. \bibinfo{publisher}{PMLR},
+  \bibinfo{address}{Sydney, NSW, Australia}, \bibinfo{pages}{1321--1330}.
+\newblock
+
+
+\bibitem[Mao et~al\mbox{.}(2019)]%
+        {decima}
+\bibfield{author}{\bibinfo{person}{Hongzi Mao}, \bibinfo{person}{Malte
+  Schwarzkopf}, \bibinfo{person}{Shaileshh Bojja~Venkatakrishnan},
+  \bibinfo{person}{Zili Meng}, {and} \bibinfo{person}{Mohammad Alizadeh}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Learning Scheduling Algorithms for Data Processing
+  Clusters}. In \bibinfo{booktitle}{\emph{Proceedings of the ACM Special
+  Interest Group on Data Communication (SIGCOMM '19)}}.
+  \bibinfo{publisher}{Association for Computing Machinery},
+  \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{270--288}.
+\newblock
+\href{https://doi.org/10.1145/3341302.3342080}{doi:\nolinkurl{10.1145/3341302.3342080}}
+
+
+\bibitem[Platt(1999)]%
+        {platt1999}
+\bibfield{author}{\bibinfo{person}{John~C. Platt}.}
+  \bibinfo{year}{1999}\natexlab{}.
+\newblock \showarticletitle{Probabilistic Outputs for Support Vector Machines
+  and Comparisons to Regularized Likelihood Methods}.
+\newblock In \bibinfo{booktitle}{\emph{Advances in Large Margin Classifiers}},
+  \bibfield{editor}{\bibinfo{person}{Alexander~J. Smola},
+  \bibinfo{person}{Peter~L. Bartlett}, \bibinfo{person}{Bernhard
+  Sch{\"o}lkopf}, {and} \bibinfo{person}{Dale Schuurmans}} (Eds.).
+  \bibinfo{publisher}{MIT Press}, \bibinfo{address}{Cambridge, MA, USA},
+  \bibinfo{pages}{61--74}.
+\newblock
+
+
+\bibitem[Verma et~al\mbox{.}(2015)]%
+        {borg}
+\bibfield{author}{\bibinfo{person}{Abhishek Verma}, \bibinfo{person}{Luis
+  Pedrosa}, \bibinfo{person}{Madhukar Korupolu}, \bibinfo{person}{David
+  Oppenheimer}, \bibinfo{person}{Eric Tune}, {and} \bibinfo{person}{John
+  Wilkes}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Large-Scale Cluster Management at {Google} with
+  {Borg}}. In \bibinfo{booktitle}{\emph{Proceedings of the Tenth European
+  Conference on Computer Systems (EuroSys '15)}}.
+  \bibinfo{publisher}{Association for Computing Machinery},
+  \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{1--17}.
+\newblock
+\href{https://doi.org/10.1145/2741948.2741964}{doi:\nolinkurl{10.1145/2741948.2741964}}
+
+
+\end{thebibliography}

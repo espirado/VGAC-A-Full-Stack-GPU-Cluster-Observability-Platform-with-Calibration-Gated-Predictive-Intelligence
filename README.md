@@ -22,8 +22,6 @@ Concretely, the platform is three layers tied together by a single invariant:
 - **Prediction layer** — calibration-aware classifier with isotonic post-hoc calibration and an online rolling **Expected Calibration Error / Brier / MCE monitor** (treating calibration drift as a telemetry signal).
 - **Decision layer** — a graduated intervention framework whose four tiers (Annotate, Warn, Suggest, Gate) carry **explicit calibration prerequisites**. A model only earns a tier when its currently-observed ECE is at or below that tier's prerequisite; if calibration drifts, the higher-stakes tiers automatically retire.
 
-> **Companion artifact.** ISS26 Paper 2 (*Reliability-First Queue Risk for GPU Clusters*) defines the SLI/SLO framework that VGAC's calibration monitor builds on. It lives in a separate repository (`espirado/Reliability-First-Queue-Risk`) and uses the IEEE conference template; see [Related work](#related-work).
-
 ## TL;DR
 
 VGAC enforces the rule **"apply action $a$ if $\hat{p} \ge \varepsilon_a$ AND $\text{ECE} \le R_a$"** — a model must *earn* each tier of intervention through demonstrated calibration quality, observed continuously.
@@ -134,11 +132,11 @@ On a real EKS GPU cluster ($n=650$ jobs), a 2-feature *floor* model honestly qua
 
 ## Live demo
 
-A companion **interactive calibration & reliability observatory** runs the same isotonic-calibration / drift-detection / SLO pipeline that VGAC formalises, against simulated workloads in the browser:
+The deployed VGAC platform is publicly browsable:
 
-> [Calibration & Reliability Observatory](https://espiradev.org/blog/llm-calibration-simulation.html) — watch ECE diverge from the diagonal, click *Inject Drift*, and see the PSI / SLO burn-rate alerts and recalibration cue fire end-to-end.
+> **[demo.vgac.cloud](https://demo.vgac.cloud/)** — researcher dashboard with the live queue/pressure snapshot, "Can my job start now?" wait-time estimator across 1/2/4/8 GPU sizes, and the cluster/pattern/inference views that surface the same calibration-gated predictions described in the paper.
 
-The deployed VGAC platform showcase URL will be added once it is public.
+An interactive browser-side companion that runs the isotonic-calibration / drift-detection / SLO pipeline against simulated workloads is at [Calibration & Reliability Observatory](https://espiradev.org/blog/llm-calibration-simulation.html) — watch ECE diverge from the diagonal, click *Inject Drift*, and see the PSI / SLO burn-rate alerts and recalibration cue fire end-to-end.
 
 ## Quickstart (5 minutes)
 
@@ -214,10 +212,9 @@ Please cite both the ACM conference paper and the software artifact:
 
 ## Related work
 
-- **Companion paper (SLI/SLO foundation).** Espira et al., *Reliability-First Queue Risk for GPU Clusters: Calibration, SLOs, and Reproducible Operational Integration*, ISS26 — repo: <https://github.com/espirado/Reliability-First-Queue-Risk>.
-- **Cross-cluster benchmark.** Espira, Dhole, Kumar, *Calibration under extreme imbalance: A multi-cluster benchmark for operational queue-delay prediction*, TechRxiv 2026 (DOI: 10.36227/techrxiv.177041829.96464119).
+- **Cross-cluster benchmark (published preprint).** Espira, Dhole, Kumar, *Calibration under extreme imbalance: A multi-cluster benchmark for operational queue-delay prediction*, TechRxiv 2026 — DOI [10.36227/techrxiv.177041829.96464119](https://doi.org/10.36227/techrxiv.177041829.96464119).
+- **Live VGAC platform.** Deployed researcher dashboard: <https://demo.vgac.cloud/>.
 - **Live calibration & reliability observatory.** Interactive showcase of the same isotonic calibration / drift / SLO pipeline VGAC formalises: <https://espiradev.org/blog/llm-calibration-simulation.html>.
-- **Sentinel.** Companion eBPF / MCP-server prototype — repo: <https://github.com/espirado/SENTINEL>.
 
 ## Use of AI assistance
 

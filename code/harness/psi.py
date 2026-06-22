@@ -1,7 +1,8 @@
 """Population Stability Index (PSI) for feature-drift detection.
 
-Used in the per-cluster calibration harness described in Section
-'Calibration and drift harness' of the ISS26 paper.
+Used in VGAC's per-cluster calibration harness to monitor input-feature
+drift between training reference and live windows. PSI > 0.10 is one of
+the recalibration triggers used by the gating layer.
 """
 from __future__ import annotations
 

@@ -60,8 +60,14 @@ identifiers:
     value: "https://github.com/espirado/VGAC-A-Full-Stack-GPU-Cluster-Observability-Platform-with-Calibration-Gated-Predictive-Intelligence/releases/tag/v1.0.0"
     description: "GitHub release v1.0.0 (camera-ready PEARC '26 artifact)"
   - type: url
+    value: "https://demo.vgac.cloud/"
+    description: "Live VGAC platform \u2014 deployed researcher dashboard with the queue / pressure / wait-time estimator and the calibration-gated prediction views described in the paper"
+  - type: url
     value: "https://espiradev.org/blog/llm-calibration-simulation.html"
     description: "Live calibration & reliability observatory \u2014 interactive showcase of the isotonic-calibration / drift-detection / SLO pipeline that VGAC formalises"
+  - type: doi
+    value: "10.36227/techrxiv.177041829.96464119"
+    description: "Cross-cluster calibration benchmark preprint cited by the VGAC paper (TechRxiv, 2026)"
 references:
   - type: software
     title: "scikit-learn"
