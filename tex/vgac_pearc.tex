@@ -17,6 +17,11 @@
 \usepackage{amsmath}
 \usepackage{xcolor}
 \usepackage{microtype}
+\usepackage{graphicx}
+
+%% Figures live in ../figures/ relative to tex/; for the TAPS upload the
+%% figure files are shipped alongside the .tex so this also resolves to ./.
+\graphicspath{{../figures/}{./figures/}{./}}
 
 %% Allow modest extra inter-word stretch to absorb tight inline texttt{} runs
 %% in narrow ACM sigconf columns without any explicit hyphenation overrides.
@@ -145,7 +150,15 @@ Submit-time capture (5\,s)  & $r=+0.44$ & Correct \\
 \end{tabular}
 \end{table}
 
-This is not merely a data-quality issue---it is a decision-correctness issue. A model trained on snapshot-timed features would invert its recommendations: suggesting submission during high congestion and warning during low congestion. Submit-time capture is a prerequisite for correct decision rules, and is part of the VGAC instrumentation contract.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{correlation_comparison.png}
+\Description[Two scatterplots of pending count versus wait time]{Two scatterplots side by side. Left panel labelled `Phase 2: Correct Correlation (Submit-Time)' shows pending count at submit time against wait time in seconds, with a positively sloped regression line and r equals plus 0.44. Right panel labelled `Phase 1: Inverted Correlation (Snapshot)' shows pending count at snapshot time against wait time with a negatively sloped regression line and r equals minus 0.27.}
+\caption{Submit-time capture corrects the inverted feature correlation. Left: pending count at submit time is positively correlated with realised wait (Pearson $r=+0.44$). Right: the same feature computed from periodic 30\,s snapshots is \emph{anti}-correlated ($r=-0.27$), inverting the causal direction. Submit-time capture is therefore a prerequisite for any downstream decision rule built on queue features.}
+\label{fig:correlation}
+\end{figure}
+
+A model trained on snapshot-timed features would invert its recommendations: suggesting submission during high congestion and warning during low congestion. Submit-time capture is part of the VGAC instrumentation contract.
 
 \section{Experimental Validation}
 \label{sec:validation}
@@ -153,9 +166,8 @@ This is not merely a data-quality issue---it is a decision-correctness issue. A 
 \subsection{Dataset}
 Our EKS GPU cluster dataset contains 650 job-lifecycle records (582 usable after de-duplication) collected from an Amazon EKS cluster running on T4 and A10G GPUs. We validate the framework at two instrumentation levels to demonstrate that the tier system accommodates the full spectrum of deployment maturity.
 
-\textbf{Floor (2 features).} The number of pending and running jobs at submit time, captured per the methodology of~\S\ref{sec:submit-time}. This is the minimum viable predictor for a cluster with no resource instrumentation beyond queue depth.
-
-\textbf{Ceiling (17+\,features):} the full VGAC production feature set, comprising job attributes (CPU, memory, GPU, disk, RDMA, node selectors, affinity, tolerations), cluster state (pending ratio, node CPU and memory pressure, capacity metrics), temporal features (hour and day of week), and derived interaction terms. The ceiling model is trained on 11,982 GPU scheduling events across Kubernetes and Slurm workloads~\cite{espira2026benchmark}.
+\textbf{Floor (2 features).} Pending and running jobs at submit time, captured per~\S\ref{sec:submit-time}---the minimum viable predictor when no resource instrumentation is available.
+\textbf{Ceiling (17+\,features).} The full VGAC feature set: job attributes (CPU, memory, GPU, disk, RDMA, scheduling constraints), cluster state (pending ratio, node pressure, capacity), temporal features, and interaction terms. The ceiling model is trained on 11,982 K8s+Slurm events~\cite{espira2026benchmark}.
 
 \subsection{Floor Model Performance (2 Features)}
 For binary classification (long wait $> 120$\,s, base rate 54.1\%) using only \texttt{pending\_at\_submit} and \texttt{running\_at\_submit}, Table~\ref{tab:floor} reports discrimination and calibration.
@@ -179,7 +191,7 @@ F1                 & 0.738 & --- \\
 \end{table}
 
 \subsection{Tier Qualification Assessment}
-This is the paper's central result. With ECE $=0.077$, Tier~1 (Annotate) is qualified ($\text{ECE}\le 0.10$); Tier~2 (Warn) is marginal (ECE 0.077 exceeds 0.07 by 0.007 and would require recalibration to clear); Tiers~3--4 are not qualified. This honest assessment is invisible to AUROC-only evaluation. A system reporting AUROC $=0.756$ might be deployed with gating enabled, but the ECE analysis reveals this would be premature. Examining the calibration bins, mid-range probabilities (0.35--0.52) show predicted-vs-actual gaps as large as 0.188---directly explaining why Tiers 3+ fail: estimates are least reliable in exactly the band where Suggest and Gate decisions are most consequential.
+This is the paper's central result. With ECE $=0.077$, Tier~1 (Annotate) is qualified ($\text{ECE}\le 0.10$); Tier~2 (Warn) is marginal (exceeds 0.07 by 0.007); Tiers~3--4 are not qualified. This honest assessment is invisible to AUROC-only evaluation: a system reporting AUROC $=0.756$ might be deployed with gating enabled, but the ECE analysis reveals this would be premature. Mid-range probabilities (0.35--0.52) show predicted-vs-actual gaps as large as 0.188---exactly the band where Suggest and Gate decisions are most consequential.
 
 \subsection{Floor to Ceiling: Feature Enrichment Unlocks Tiers}
 The graduated framework is designed to accommodate the full spectrum of instrumentation maturity. Table~\ref{tab:ceiling} shows the tier progression from the 2-feature floor to the 17+\,feature production VGAC deployment.
@@ -199,34 +211,29 @@ Production VGAC (17+)       & 0.969          & 0.005          & 1--4           &
 \end{tabular}
 \end{table}
 
-With 17+ features and isotonic post-hoc calibration, the production VGAC model achieves ECE $=0.005$---well below the Gate prerequisite of 0.03---qualifying for all four tiers including autonomous admission gating. The $12.7\times$ improvement in ECE (0.077 $\to$ 0.005) demonstrates that the tier framework creates a concrete, measurable upgrade path: each investment in instrumentation (adding resource specifications, cluster-state capture, temporal features) directly translates into unlocked policy capabilities.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{tier_qualification.png}
+\Description[Two bar charts: false-action rate by tier and ECE versus tier prerequisites]{Two-panel bar chart. Panel (a) shows false-action rate by tier on Slurm for three models: logistic regression has rates around 0.59, 0.64, and 0.50 for tiers 1 through 3 with no qualification for tier 4; random forest qualifies for tier 1 only at around 0.07; gradient boosting qualifies for all four tiers with rates near zero. Panel (b) shows ECE bars for the three models across submit-only, all-features, and EKS feature sets, with horizontal dashed reference lines at 0.10, 0.07, 0.05, and 0.03 marking the four tier prerequisites. Only bars below a given dashed line are permitted at that tier.}
+\caption{Tier qualification across models and feature sets on a wider benchmark that contextualises Table~\ref{tab:ceiling}. (a) False-action rate per tier on the companion Slurm trace: LR mis-qualifies through Tier~3 while GB clears every threshold. (b) ECE versus the four prerequisites (dashed lines at $0.10/0.07/0.05/0.03$ for T1--T4); only the bars that fall below a given dashed line are permitted at that tier. The pattern generalises the EKS floor-vs-ceiling result: model family \emph{and} feature set jointly determine which tiers are earned.}
+\label{fig:tiers}
+\end{figure}
+
+With 17+ features and isotonic post-hoc calibration, the production VGAC model reaches ECE $=0.005$---well below the Gate prerequisite of 0.03---qualifying for all four tiers. The $12.7\times$ ECE improvement (0.077 $\to$ 0.005, Fig.~\ref{fig:tiers}b) creates a concrete upgrade path: each instrumentation investment translates into unlocked policy capabilities.
 
 \section{Integration Reference Implementations}
 \label{sec:integration}
-We demonstrate integration via two production schedulers, both of which enforce tier qualification \emph{at serve time} rather than only at deployment time, so degraded models automatically reduce their action scope.
-
-\textbf{Kubernetes.} A mutating admission webhook intercepts Pod creation, extracts resource requests, queries the prediction service ($<10$\,ms), and annotates the Pod with the predicted probability and the qualified tier. The webhook checks the model's current rolling ECE before tier selection, so a model whose ECE has drifted above 0.05 will silently stop emitting Suggest and Gate annotations until recalibration restores qualification.
-
-\textbf{Slurm.} A \texttt{job\_submit} plugin attaches tier-qualified predictions to job metadata via the \texttt{Comment} field. Warn-level alerts are surfaced via \texttt{slurm\_info} when the qualified tier and probability jointly warrant notification.
-
-Both implementations follow the same pattern:
-\begin{quote}\small\ttfamily\raggedright
-prob = predict(features);\\
-tier = get\_qualified\_tier(prob, current\_ece);\\
-annotate(job, prob, tier).
-\end{quote}
-The tier check is evaluated per request against the model's rolling ECE, ensuring that graceful degradation is dynamic rather than a build-time decision.
+Both reference integrations enforce tier qualification \emph{at serve time} rather than only at deployment time, so degraded models automatically reduce their action scope. \textbf{Kubernetes:} a mutating admission webhook intercepts Pod creation, queries the prediction service ($<10$\,ms), and annotates the Pod with the predicted probability and qualified tier; a model whose rolling ECE drifts above $0.05$ silently stops emitting Suggest and Gate annotations until recalibration restores qualification. \textbf{Slurm:} a \texttt{job\_submit} plugin attaches tier-qualified predictions to the job's \texttt{Comment} field, surfacing Warn-level alerts via \texttt{slurm\_info} when probability and tier jointly warrant notification. Both follow the same loop: \texttt{prob = predict(features); tier = get\_qualified\_tier(prob, current\_ece); annotate(job, prob, tier)}---evaluated per request against the model's rolling ECE, so graceful degradation is dynamic, not a build-time decision.
 
 \section{Discussion}
-The floor-to-ceiling validation (Table~\ref{tab:ceiling}) demonstrates the framework's core value proposition: it accommodates deployments ranging from minimal instrumentation (2 features, Tiers 1--2) to full production observability (17+ features, all four tiers). The 2-feature floor proves that even minimal submit-time signal closes the reactive gap for advisory tiers. The 17+\,feature ceiling proves that with proper instrumentation, calibration quality can support fully autonomous admission gating (ECE $0.005 \ll 0.03$ Gate prerequisite). Without calibration prerequisites, a team deploying the 2-feature model with AUROC 0.756 might enable gating; the framework prevents this by requiring each tier to be earned through demonstrated ECE. The upgrade path is explicit: add resource instrumentation $\to$ add cluster-state capture $\to$ add temporal features $\to$ watch tiers unlock.
-
-\paragraph{Limitations.} The ECE prerequisites in Table~\ref{tab:tiers} are informed by operational intuition; formal cost-sensitive analysis could provide tighter bounds for specific operator cost structures. The 2-feature validation uses a single EKS cluster ($n=650$); cross-cluster evaluation of tier qualification across heterogeneous schedulers is the subject of ongoing work and a companion benchmark~\cite{espira2026benchmark}.
+The floor-to-ceiling validation (Table~\ref{tab:ceiling}, Fig.~\ref{fig:tiers}) shows the framework accommodates the full instrumentation spectrum: minimal submit-time signal closes the reactive gap for advisory tiers, while 17+ features support autonomous admission gating (ECE $0.005 \ll 0.03$). Without calibration prerequisites a team deploying the 2-feature model at AUROC $0.756$ might enable gating; the framework prevents this by requiring each tier to be \emph{earned} through demonstrated ECE.
+\paragraph{Limitations.} The ECE prerequisites in Table~\ref{tab:tiers} are informed by operational intuition; formal cost-sensitive analysis could tighten them per operator. The 2-feature validation uses one EKS cluster ($n=650$); cross-cluster evaluation across heterogeneous schedulers is the subject of a companion benchmark~\cite{espira2026benchmark}.
 
 \section{Related Work}
 Decima~\cite{decima} learns scheduling policies via reinforcement learning but does not address calibration or user-facing decision rules. Borg~\cite{borg} and Firmament~\cite{firmament} optimize placement; our focus is the prediction-to-decision interface at submit time. Elkan~\cite{elkan2001} formalizes cost-sensitive classification, in which the optimal threshold depends on cost ratios; we extend this idea to graduated actions where each tier has a different cost profile and a different calibration requirement. Guo et al.~\cite{guo2017calibration} established ECE as a standard calibration metric; we operationalize ECE as a gate that constrains permissible actions.
 
 \section{Conclusion}
-We present VGAC, a full-stack GPU cluster observability platform whose predictive intelligence is calibration-gated through a decision-theoretic framework that translates calibrated queue-delay probabilities into scheduling actions. The key insight is that calibration quality determines permissible action severity: a model must \emph{earn} each intervention tier through demonstrated ECE. We validate across the full instrumentation spectrum: a 2-feature floor model (ECE 0.077) honestly qualifies for annotation but not suggestion or gating, while the 17+\,feature production VGAC model (ECE 0.005) qualifies for all four tiers including autonomous admission gating. This $12.7\times$ ECE improvement from instrumentation investment creates a concrete upgrade path that is invisible to AUROC-only evaluation. The submit-time capture methodology ($r = -0.27 \to r = +0.44$) establishes that correct measurement is a prerequisite for correct decisions. Together with the companion reliability SLI/SLO framework~\cite{espira2026reliability}, VGAC completes the path from calibrated prediction to safe scheduling policy.
+VGAC is a full-stack GPU cluster observability platform whose predictive intelligence is calibration-gated: calibration quality determines permissible action severity, and each tier of intervention must be \emph{earned} through demonstrated ECE. The 2-feature floor (ECE $0.077$) honestly qualifies only for annotation; the 17+\,feature production VGAC model (ECE $0.005$) qualifies for all four tiers including autonomous gating---a $12.7\times$ improvement invisible to AUROC-only evaluation. Submit-time capture ($r=-0.27 \to +0.44$, Fig.~\ref{fig:correlation}) further shows that correct measurement is a prerequisite for correct decisions. With the companion SLI/SLO framework~\cite{espira2026reliability}, VGAC completes the path from calibrated prediction to safe scheduling policy.
 
 \section*{Disclosure of Generative AI Use}
 In accordance with the ACM Policy on Authorship and the Use of Generative
