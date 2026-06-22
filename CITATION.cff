@@ -92,8 +92,8 @@ references:
 preferred-citation:
   type: conference-paper
   title: >-
-    VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated
-    Predictive Intelligence
+    From Calibrated Probabilities to Scheduling Decisions:
+    Decision Rules and Calibration Prerequisites for GPU Queue Policy
   authors:
     - family-names: Espira
       given-names: Andrew

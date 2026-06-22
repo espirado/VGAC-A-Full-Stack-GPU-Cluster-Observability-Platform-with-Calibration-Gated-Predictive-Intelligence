@@ -10,7 +10,9 @@
 
 Reproducible artifact accompanying the paper:
 
-> **Espira, A. and Kumar, S. (2026).** *VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence.* In **Practice and Experience in Advanced Research Computing 2026 (PEARC '26)**, July 26–30, Minneapolis, MN, USA. ACM. <https://doi.org/10.1145/3785462.3815816> (PEARC '26 short paper, 4 pages.)
+> **Espira, A. and Kumar, S. (2026).** *From Calibrated Probabilities to Scheduling Decisions: Decision Rules and Calibration Prerequisites for GPU Queue Policy.* In **Practice and Experience in Advanced Research Computing 2026 (PEARC '26)**, July 26–30, Minneapolis, MN, USA. ACM. <https://doi.org/10.1145/3785462.3815816> (PEARC '26 short paper, 4 pages.)
+
+(The paper describes **VGAC** — *A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence* — which is the system this repository implements.)
 
 ## What VGAC is
 
@@ -185,8 +187,8 @@ Please cite both the ACM conference paper and the software artifact:
 
 ```bibtex
 @inproceedings{espira2026vgac,
-  title     = {VGAC: A Full-Stack GPU Cluster Observability Platform with
-               Calibration-Gated Predictive Intelligence},
+  title     = {From Calibrated Probabilities to Scheduling Decisions:
+               Decision Rules and Calibration Prerequisites for GPU Queue Policy},
   author    = {Espira, Andrew and Kumar, Sharath},
   booktitle = {Practice and Experience in Advanced Research Computing 2026 (PEARC '26)},
   year      = {2026},

@@ -1,5 +1,5 @@
 {
-  "title": "VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence",
+  "title": "From Calibrated Probabilities to Scheduling Decisions: Decision Rules and Calibration Prerequisites for GPU Queue Policy",
   "description": "Reproducible scientific-software artifact accompanying the PEARC '26 paper. Includes the calibration-gated prediction pipeline (universal feature schema, isotonic post-hoc calibration, four-tier qualification, PSI and temporal-ECE drift detection, sliding-window recalibration), policy translation layer (gpu_ext bridge, generator, inference router), routing simulation harness, sample data for four cluster environments (EKS-Dec, Slurm with DCGM, Alibaba 2020/2023, Google Borg 2019), benchmark artifacts, architecture/methodology documentation, and a single Jupyter notebook that regenerates every figure in the paper.",
   "upload_type": "publication",
   "publication_type": "conferencepaper",
