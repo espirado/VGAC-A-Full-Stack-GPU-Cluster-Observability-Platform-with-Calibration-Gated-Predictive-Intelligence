@@ -28,6 +28,10 @@ authors:
     orcid: "https://orcid.org/0009-0002-9196-8094"
     affiliation: Saint Peter's University
     email: aespira@saintpeters.edu
+  - family-names: Kumar
+    given-names: Sharath
+    affiliation: Saint Peter's University
+    email: skumar@saintpeters.edu
 keywords:
   - GPU clusters
   - Kubernetes
@@ -88,6 +92,9 @@ preferred-citation:
     - family-names: Espira
       given-names: Andrew
       orcid: "https://orcid.org/0009-0002-9196-8094"
+      affiliation: Saint Peter's University
+    - family-names: Kumar
+      given-names: Sharath
       affiliation: Saint Peter's University
   year: 2026
   month: 7

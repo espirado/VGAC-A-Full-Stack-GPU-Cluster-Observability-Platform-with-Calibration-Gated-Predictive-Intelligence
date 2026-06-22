@@ -44,7 +44,17 @@
 }
 \email{aespira@saintpeters.edu}
 
-\renewcommand{\shortauthors}{Espira}
+\author{Sharath Kumar}
+\affiliation{%
+  \institution{Saint Peter's University}
+  \department{Department of Data Science}
+  \city{Jersey City}
+  \state{NJ}
+  \country{USA}
+}
+\email{skumar@saintpeters.edu}
+
+\renewcommand{\shortauthors}{Espira and Kumar}
 
 \begin{abstract}
 Calibrated queue-delay predictions are useful only if they translate into scheduling decisions with known operating characteristics. We present VGAC, a full-stack GPU cluster observability platform with calibration-gated predictive intelligence: each predictive intervention is permitted only when the underlying probability is calibrated well enough to support it. The contribution has three parts. (1) A graduated intervention framework with four tiers---Annotate, Warn, Suggest, Gate---each carrying an explicit calibration prerequisite (Expected Calibration Error $\le 0.10$ for Annotate down to ECE $\le 0.03$ for Gate) and a tier-specific probability threshold $\varepsilon_a$ in the rule ``apply action $a$ if $\hat{p} \ge \varepsilon_a$.'' (2) A submit-time queue-state capture methodology that corrects an inverted feature correlation, taking Pearson $r$ from $-0.27$ under naive 30\,s polling to $+0.44$ under submit-time capture, and so establishes correct measurement as a prerequisite for correct decision rules. (3) An empirical floor-to-ceiling validation on an Amazon EKS GPU cluster: a 2-feature ``floor'' model qualifies for Annotate and is marginal for Warn (AUROC 0.756, ECE 0.077), while the 17+\,feature production VGAC model achieves ECE 0.005 and qualifies for all four tiers including autonomous admission gating. The framework is realized in production-grade Kubernetes admission webhooks and Slurm \texttt{job\_submit} hooks that re-evaluate tier qualification at serve time so degraded models automatically reduce their action scope.
@@ -237,7 +247,7 @@ VGAC is a full-stack GPU cluster observability platform whose predictive intelli
 
 \section*{Disclosure of Generative AI Use}
 In accordance with the ACM Policy on Authorship and the Use of Generative
-AI Tools, the author discloses the following: portions of the manuscript
+AI Tools, the authors disclose the following: portions of the manuscript
 text were edited with the assistance of a large language model (Anthropic
 Claude, accessed during 2026) used as a writing aid for clarity, grammar,
 and concision on author-drafted content. The model was not used to
@@ -245,11 +255,11 @@ generate experimental results, design or run experiments, interpret data,
 construct tables, derive equations, or compose citations. All scientific
 content---including the calibration framework, tier prerequisites,
 submit-time capture methodology, empirical results, tables, and the bibliography---
-was conceived, executed, and verified by the human author, who takes full
+was conceived, executed, and verified by the human authors, who take full
 responsibility for the integrity, originality, and accuracy of the work.
 
 \begin{acks}
-We thank the Saint Peter's University Department of Data Science for guidance and infrastructure support. The author thanks Tushar Dhole, Bhumi Nagar, and Sharath Kumar for ongoing collaboration on the broader GPU-cluster reliability research program.
+We thank Saint Peter's University for support of this work.
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}

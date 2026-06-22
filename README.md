@@ -10,7 +10,7 @@
 
 Reproducible artifact accompanying the paper:
 
-> **Espira, A. (2026).** *VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence.* In **Practice and Experience in Advanced Research Computing 2026 (PEARC '26)**, July 26–30, Minneapolis, MN, USA. ACM. <https://doi.org/10.1145/3785462.3815816> (PEARC '26 short paper, 4 pages.)
+> **Espira, A. and Kumar, S. (2026).** *VGAC: A Full-Stack GPU Cluster Observability Platform with Calibration-Gated Predictive Intelligence.* In **Practice and Experience in Advanced Research Computing 2026 (PEARC '26)**, July 26–30, Minneapolis, MN, USA. ACM. <https://doi.org/10.1145/3785462.3815816> (PEARC '26 short paper, 4 pages.)
 
 ## What VGAC is
 
@@ -189,7 +189,7 @@ Please cite both the ACM conference paper and the software artifact:
 @inproceedings{espira2026vgac,
   title     = {VGAC: A Full-Stack GPU Cluster Observability Platform with
                Calibration-Gated Predictive Intelligence},
-  author    = {Espira, Andrew},
+  author    = {Espira, Andrew and Kumar, Sharath},
   booktitle = {Practice and Experience in Advanced Research Computing 2026 (PEARC '26)},
   year      = {2026},
   publisher = {ACM},
@@ -202,7 +202,7 @@ Please cite both the ACM conference paper and the software artifact:
 @software{espira2026vgac_artifact,
   title   = {VGAC: A Full-Stack GPU Cluster Observability Platform
              (software artifact, v1.0.0)},
-  author  = {Espira, Andrew},
+  author  = {Espira, Andrew and Kumar, Sharath},
   year    = {2026},
   version = {1.0.0},
   doi     = {10.5281/zenodo.PENDING},
@@ -231,6 +231,9 @@ Drafting of the paper text was assisted by a large language model (Anthropic Cla
 
 ## Contact
 
-Andrew Espira — `aespira@saintpeters.edu` — Department of Data Science, Saint Peter's University, Jersey City, NJ, USA. ORCID: [0009-0002-9196-8094](https://orcid.org/0009-0002-9196-8094).
+- **Andrew Espira** — `aespira@saintpeters.edu` — ORCID: [0009-0002-9196-8094](https://orcid.org/0009-0002-9196-8094)
+- **Sharath Kumar** — `skumar@saintpeters.edu`
+
+Department of Data Science, Saint Peter's University, Jersey City, NJ, USA.
 
 For bug reports and reproducibility issues, please open a GitHub issue.
